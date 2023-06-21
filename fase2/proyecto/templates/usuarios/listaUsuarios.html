@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Gestion Usuarios</title>
+    </head>
+    <body>
+        
+        <a href="{% url 'crearUsuario' %}">Crear Usuario</a>
+        <h1>Lista Usuarios</h1>
+        <table>
+            <thead>
+                <th>Rol</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Telefono</th>
+                <th>Correo</th>
+                <th>Contrasena</th>
+                <th>Acciones</th>
+            </thead>
+            <tbody>
+                {% for user in usuarios%}
+                <tr>
+                    <td>{{ user.rol }}</td>
+                    <td>{{ user.nombre }}</td>
+                    <td>{{ user.apellido }}</td>
+                    <td>{{ user.telefono }}</td>
+                    <td>{{ user.correo }}</td>
+                    <td>{{ user.contrasena }}</td>
+                    <td>
+                        <a href="{% url 'actualizarUser' user.correo%}">Actualizar</a>
+                        <a href="{% url 'EliminarUser' user.correo}">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>

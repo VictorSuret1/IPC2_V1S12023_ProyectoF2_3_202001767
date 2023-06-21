@@ -1,0 +1,66 @@
+<categorias>
+    <categoria>
+        <nombre>Acción</nombre>
+    <peliculas>
+        <pelicula>
+            <titulo>Avengers: Endgame</titulo>
+            <director>Joe Russo, Anthony Russo</director>
+            <anio>2019</anio>
+            <fecha>2023-06-05</fecha>
+            <hora>18:30</hora>
+            <imagen>https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_.jpg</imagen>
+            <precio>42</precio>
+        </pelicula>
+        <pelicula>
+            <titulo>John Wick</titulo>
+            <director>Chad Stahelski</director>
+            <anio>2014</anio>
+            <fecha>2023-06-06</fecha>
+            <hora>20:00</hora>
+            <imagen>https://images.savoysystems.co.uk/PCH/27057640.jpg</imagen>
+            <precio>45</precio>
+        </pelicula>
+        <pelicula>
+            <titulo>Misión Imposible: Fallout</titulo>
+            <director>Christopher McQuarrie</director>
+            <anio>2018</anio>
+            <fecha>2023-06-07</fecha>
+            <hora>19:15</hora>
+            <imagen>https://pics.filmaffinity.com/Misiaon_imposible_Fallout-180739766-mmed.jpg</imagen>
+            <precio>55</precio>
+        </pelicula>
+    </peliculas>
+    </categoria>
+    <categoria>
+         <nombre>Comedia</nombre>
+    <peliculas>
+        <pelicula>
+            <titulo>Deadpool</titulo>
+            <director>Tim Miller</director>
+            <anio>2016</anio>
+            <fecha>2023-06-05</fecha>
+            <hora>20:30</hora>
+            <imagen>https://upload.wikimedia.org/wikipedia/en/2/23/Deadpool_%282016_poster%29.png</imagen>
+            <precio>65</precio>
+        </pelicula>
+        <pelicula>
+            <titulo>Superbad</titulo>
+            <director>Greg Mottola</director>
+            <anio>2007</anio>
+            <fecha>2023-06-06</fecha>
+            <hora>21:00</hora>
+            <imagen>https://pics.filmaffinity.com/Supersalidos-743461969-large.jpg</imagen>
+            <precio>65</precio>
+        </pelicula>
+        <pelicula>
+            <titulo>Bridesmaids</titulo>
+            <director>Paul Feig</director>
+            <anio>2011</anio>
+            <fecha>2023-06-07</fecha>
+            <hora>20:15</hora>
+            <imagen>https://m.media-amazon.com/images/M/MV5BMjAyOTMyMzUxNl5BMl5BanBnXkFtZTcwODI4MzE0NA@@._V1_.jpg</imagen>
+            <precio>42</precio>
+         </pelicula>
+    </peliculas>
+     </categoria>
+</categorias>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>Crear usuario</head>
+    <body>
+        <h1>Crear Usuario</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <label for="rol">Rol</label>
+            <input type="text" name ="rol" required>
+            <label for="nombre">Nombre</label>
+            <input type="text" name ="nombre" required>
+            <label for="apellido">Apellido</label>
+            <input type="text" name ="apellido" required>
+            <label for="telefono">Telefono</label>
+            <input type="number" name ="telefono" required>
+            <label for="correo">Correo</label>
+            <input type="text" name ="correo" required>
+            <label for="contrasena">Contrasena</label>
+            <input type="text" name ="contrasena" required>
+
+            <button type="submit">Guardar</button>
+        </form>
+    </body>
+</html>
