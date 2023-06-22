@@ -4,7 +4,10 @@
         <title>Gestion Usuarios</title>
     </head>
     <body>
-        
+        <form method="POST" action="{% url 'cargaXMLUsuarios' %}">
+            {% csrf_token %}
+            <button type="submit">Cargar XML</button>
+        </form>
         <a href="{% url 'crearUsuario' %}">Crear Usuario</a>
         <h1>Lista Usuarios</h1>
         <table>
@@ -18,7 +21,7 @@
                 <th>Acciones</th>
             </thead>
             <tbody>
-                {% for user in usuarios%}
+                {% for user in usuario%}
                 <tr>
                     <td>{{ user.rol }}</td>
                     <td>{{ user.nombre }}</td>
@@ -28,7 +31,7 @@
                     <td>{{ user.contrasena }}</td>
                     <td>
                         <a href="{% url 'actualizarUser' user.correo%}">Actualizar</a>
-                        <a href="{% url 'EliminarUser' user.correo}">Eliminar</a>
+                        <a href="{% url 'eliminarUser' user.correo%}">Eliminar</a>
                     </td>
                 </tr>
                 {% endfor %}

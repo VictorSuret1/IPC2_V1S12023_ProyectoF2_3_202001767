@@ -18,6 +18,27 @@ class ListaEnlazada:
                 actual = actual.siguiente
             actual.siguiente = nuevo
 
+    def remove(self, dato):
+        if self.cabeza is None:
+            return
+
+        if self.cabeza.dato == dato:
+            self.cabeza = self.cabeza.siguiente
+            return
+
+        actual = self.cabeza
+        previo = None
+        while actual is not None:
+            if actual.dato == dato:
+                break
+            previo = actual
+            actual = actual.siguiente
+
+        if actual is None:
+            return
+
+        previo.siguiente = actual.siguiente
+
 
     def CargarXML(self, operacion,ruta):
         tree = ET.parse(ruta)

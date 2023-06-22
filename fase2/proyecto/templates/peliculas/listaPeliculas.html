@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html >
     <head>
-        <title>Gestion Peliculas</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/listaPeliculas.css' %}" >
+        <title class="Titulo">Gestion Peliculas</title>
+        
     </head>
     <body>
         <form method="POST" action="{% url 'cargaXML' %}">
@@ -11,8 +14,8 @@
         <a href="{% url 'crearPelicula' %}">Crear Pelicula</a>
         
         <h1>Lista Peliculas</h1>
-        <table>
-            <thead>
+        <table >
+            <thead >
                 <th>Categoria</th>
                 <th>Titulo</th>
                 <th>Director</th>

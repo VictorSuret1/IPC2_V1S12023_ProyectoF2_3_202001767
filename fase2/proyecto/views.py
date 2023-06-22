@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from proyecto.fase1.listaEnlazada import ListaEnlazada
 from proyecto.fase1.listaDobleCircular import  listaDobleCircular
+from proyecto.fase1.cons import Peliculas
 from proyecto.fase1.listaDoble import listaDoble
 
 # Create your views here.
@@ -17,10 +18,15 @@ pelis = 'peliculas.xml'
 global salas
 salas = 'salas.xml'
 
+
+def cargaXMLUsuarios(request):
+    if request.method == 'POST':
+        lista.CargarXML(1,datos)
+    return render(request, 'usuarios/listaUsuarios.html', {'usuario': lista})
+
 def listaUser(request):
-    lista.CargarXML(1,datos)
-    
-    return render(request, 'usuarios/listaUsuarios.html', {'usuarios': lista})
+    usuario = list(lista)
+    return render(request, 'usuarios/listaUsuarios.html', {'usuario': usuario})
 
 
 def crearUser(request):
@@ -39,21 +45,28 @@ def crearUser(request):
     return render(request, 'usuarios/crearUsuario.html')
 
 def actualizarUser(request, correo):
-    usuario = next((usuario for usuario in lista if usuario['correo'] == correo), None)
+    usuario = next((usuario for usuario in lista if usuario.correo == correo), None)
     if usuario:
         if request.method == 'POST':
-            usuario['rol'] = request.POST.get('rol')
-            usuario['nombre'] = request.POST.get('nombre')
-            usuario['apellido'] = request.POST.get('apellido')
-            usuario['telefono'] = request.POST.get('telefono')
-            usuario['correo'] = request.POST.get('correo')
-            usuario['contrasena'] = request.POST.get('contrasena')
+            usuario.rol = request.POST.get('rol')
+            usuario.nombre = request.POST.get('nombre')
+            usuario.apellido = request.POST.get('apellido')#No actualiza un nuevo usuario creado
+            usuario.telefono = request.POST.get('telefono')
+            usuario.correo = request.POST.get('correo')
+            usuario.contrasena = request.POST.get('contrasena')
             return redirect('listaUser')
         return render(request, 'usuarios/actualizarUser.html', {'usuario': usuario})
     return redirect('listaUser')
+
+
     
 def eliminarUser(request, correo):
-    pass
+    lista.remove(correo)
+    return redirect('listaUser')
+
+
+
+
 
 def listaPeli(request):
     peliculas = list(listaCir)
@@ -75,9 +88,8 @@ def crearPeli(request):
         hora = request.POST.get('hora')
         imagen = request.POST.get('imagen')
         precio = request.POST.get('precio')
-        objeto = {'categoria':categoria,'titulo':titulo,'director':director,'anio':anio,'fecha':fecha,'hora':hora, 'imagen':imagen, 'precio':precio}
-        listaCir.add(objeto)
-    
+        peli = Peliculas(categoria, titulo, director, anio, fecha, hora, imagen, precio)
+        listaCir.add(peli)
         return redirect('listaPeli')
     return render(request, 'peliculas/crearPelicula.html')
 
@@ -95,6 +107,10 @@ def actualizarPeli(request, titulo):
             peli.precio = request.POST.get('precio')
             return redirect('listaPeli')
         return render(request, 'peliculas/actualizarPeli.html', {'peli': peli})
+    return redirect('listaPeli')
+
+def eliminarPeli(request, titulo):
+    listaCir.remove(titulo)
     return redirect('listaPeli')
 
 

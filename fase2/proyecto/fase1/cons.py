@@ -7,6 +7,16 @@ class Usuario:
         self.correo = correo
         self.contrasena = contrasena
     
+    def to_dict(self):
+        return{
+            'rol':self.rol,
+            'nombre':self.nombre,
+            'apellido': self.apellido,
+            'telefono': self.telefono,
+            'correo':self.correo,
+            'contrasena':self.contrasena
+        }
+    
     def imprimir(self):
         print(f"rol: {self.rol} Nombre: {self.nombre} apellido: {self.apellido} telefono: {self.telefono} correo: {self.correo} contrasena: {self.contrasena}")
 

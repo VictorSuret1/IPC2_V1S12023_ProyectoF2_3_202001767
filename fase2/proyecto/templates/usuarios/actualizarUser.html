@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
-    <head>Actualizar Usuario</head>
+    <head>
+        <title>Actualizar Usuario</title>
+    </head>
     <body>
         <h1>Actualizar Usuario</h1>
 
-        <form method="post"></form>
+        <form method="post">
             {% csrf_token %}
             <label for="rol">Rol</label>
             <input type="text" name="rol" value="{{usuario.rol}}" required>
@@ -20,5 +22,6 @@
             <input type="text" name="contrasena" value="{{usuario.contrasena}}" required>
 
             <button type="submit">Actualizar</button>
+        </form>
     </body>
 </html>

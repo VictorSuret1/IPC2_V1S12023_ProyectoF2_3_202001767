@@ -16,13 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from proyecto.views import listaUser,crearUser,actualizarUser,listaPeli,crearPeli,cargaXML, actualizarPeli, eliminarPeli
+from proyecto.views import listaUser,crearUser,cargaXMLUsuarios,actualizarUser,eliminarUser,listaPeli,crearPeli,cargaXML, actualizarPeli, eliminarPeli
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('usuarios/', listaUser, name = 'listaUser'),
     path('usuarios/crear/', crearUser, name = 'crearUsuario'),
+    path('usuarios/carga-xml',cargaXMLUsuarios, name = 'cargaXMLUsuarios' ),
     path('usuarios/actualizar/<str:correo>', actualizarUser, name='actualizarUser'),
+    path('usuarios/eliminar/<str:correo>', eliminarUser, name="eliminarUser"),
 
     path('peliculas/', listaPeli, name = 'listaPeli'),
     path('peliculas/crearPelicula/', crearPeli, name = 'crearPelicula' ),

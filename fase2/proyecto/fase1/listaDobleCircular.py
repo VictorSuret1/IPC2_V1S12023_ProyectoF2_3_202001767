@@ -25,25 +25,9 @@ class listaDobleCircular:
             self.cabeza.anterior = nuevo_nodo
             ultimo.siguiente = nuevo_nodo
 
-    def CargarPelis(self,ruta):
-        tree = ET.parse(ruta)
-        root = tree.getroot()
-        for categoria in root.findall("categoria"):
-            nombre = categoria.find('nombre').text
-           
-            pelicula = categoria.find('peliculas')
+        self.lista.append(nuevo_nodo)  # Agregar el nuevo nodo a la lista
 
-            for peli in pelicula.findall('pelicula'):
-                titulo = peli.find('titulo').text
-                director = peli.find('director').text
-                anio = peli.find('anio').text
-                fecha = peli.find('fecha').text
-                hora= peli.find('hora').text
-                imagen = peli.find('imagen').text
-                precio= peli.find('precio').text
-                peli = Peliculas(nombre,titulo,director,anio,fecha,hora,imagen,precio)
-                self.add(peli)
-    
+
     def remove(self, titulo):
         nodo_actual = self.cabeza
 
@@ -66,6 +50,27 @@ class listaDobleCircular:
 
                 if nodo_actual == self.cabeza:
                     break
+
+
+    def CargarPelis(self,ruta):
+        tree = ET.parse(ruta)
+        root = tree.getroot()
+        for categoria in root.findall("categoria"):
+            nombre = categoria.find('nombre').text
+           
+            pelicula = categoria.find('peliculas')
+
+            for peli in pelicula.findall('pelicula'):
+                titulo = peli.find('titulo').text
+                director = peli.find('director').text
+                anio = peli.find('anio').text
+                fecha = peli.find('fecha').text
+                hora= peli.find('hora').text
+                imagen = peli.find('imagen').text
+                precio= peli.find('precio').text
+                peli = Peliculas(nombre,titulo,director,anio,fecha,hora,imagen,precio)
+                self.add(peli)
+
 
     def loop(self):
         if self.cabeza is not None:
