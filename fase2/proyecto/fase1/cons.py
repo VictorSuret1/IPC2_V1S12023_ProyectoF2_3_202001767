@@ -22,6 +22,18 @@ class Peliculas:
         self.imagen = imagen
         self.precio = precio
 
+    def to_dict(self):
+        return {
+            'categoria': self.categoria,
+            'titulo': self.titulo,
+            'director': self.director,
+            'anio': self.anio,
+            'fecha': self.fecha,
+            'hora': self.hora,
+            'imagen': self.imagen,
+            'precio': self.precio
+        }
+
 class Salas:
     def __init__(self, cine, numero, asientos):
         self.cine = cine

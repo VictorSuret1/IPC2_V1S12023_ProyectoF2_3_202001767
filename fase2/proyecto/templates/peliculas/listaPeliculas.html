@@ -9,6 +9,7 @@
             <button type="submit">Cargar XML</button>
         </form>
         <a href="{% url 'crearPelicula' %}">Crear Pelicula</a>
+        
         <h1>Lista Peliculas</h1>
         <table>
             <thead>
@@ -34,8 +35,8 @@
                     <td><img src="{{ peli.imagen }} " width="100"></td>
                     <td>{{ peli.precio }}</td>
                     <td>
-                        <a href="{% url 'ActualizarPeli' peli.titulo}">Actualizar</a>
-                        <a href="{% url 'EliminarPelo' peli.titulo}">Eliminar</a>
+                        <a href="{% url 'actualizarPeli' peli.titulo %}">Actualizar</a>
+                        <a href="{% url 'eliminarPeli' peli.titulo %}">Eliminar</a>
                     </td>
                 </tr>
                 {% endfor %}

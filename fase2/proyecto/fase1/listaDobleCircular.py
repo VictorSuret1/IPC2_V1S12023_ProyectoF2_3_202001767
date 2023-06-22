@@ -43,6 +43,29 @@ class listaDobleCircular:
                 precio= peli.find('precio').text
                 peli = Peliculas(nombre,titulo,director,anio,fecha,hora,imagen,precio)
                 self.add(peli)
+    
+    def remove(self, titulo):
+        nodo_actual = self.cabeza
+
+        if nodo_actual is not None:
+            while True:
+                if nodo_actual.dato.titulo == titulo:
+                    siguiente_nodo = nodo_actual.siguiente
+                    anterior_nodo = nodo_actual.anterior
+
+                    siguiente_nodo.anterior = anterior_nodo
+                    anterior_nodo.siguiente = siguiente_nodo
+
+                    if nodo_actual == self.cabeza:
+                        self.cabeza = siguiente_nodo
+
+                    del nodo_actual
+                    break
+
+                nodo_actual = nodo_actual.siguiente
+
+                if nodo_actual == self.cabeza:
+                    break
 
     def loop(self):
         if self.cabeza is not None:

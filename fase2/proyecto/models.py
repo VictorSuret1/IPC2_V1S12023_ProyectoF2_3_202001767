@@ -18,7 +18,7 @@ class Pelicula(models.Model):
     fecha = models.DateField()
     hora = models.TimeField()
 
-    class Salas(models.Model):
-        cine = models.CharField(max_length=100)
-        numero = models.IntegerField()
-        asientos = models.IntegerField()
+class Salas(models.Model):
+    cine = models.CharField(max_length=100)
+    numero = models.IntegerField()
+    asientos = models.IntegerField()

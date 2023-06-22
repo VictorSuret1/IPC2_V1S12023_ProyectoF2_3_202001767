@@ -81,4 +81,24 @@ def crearPeli(request):
         return redirect('listaPeli')
     return render(request, 'peliculas/crearPelicula.html')
 
+def actualizarPeli(request, titulo):
+    peli = next((peli for peli in listaCir if peli.titulo == titulo), None)
+    if peli:
+        if request.method == 'POST':
+            peli.categoria = request.POST.get('categoria')
+            peli.titulo = request.POST.get('titulo')
+            peli.director = request.POST.get('director')
+            peli.anio = request.POST.get('anio')
+            peli.fecha = request.POST.get('fecha')
+            peli.hora = request.POST.get('hora')
+            peli.imagen = request.POST.get('imagen')
+            peli.precio = request.POST.get('precio')
+            return redirect('listaPeli')
+        return render(request, 'peliculas/actualizarPeli.html', {'peli': peli})
+    return redirect('listaPeli')
+
+
+def eliminarPeli(request, titulo):
     
+    listaCir.remove(titulo)
+    return redirect('listaPeli')
