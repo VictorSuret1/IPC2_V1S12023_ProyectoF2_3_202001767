@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from proyecto.fase1.listaEnlazada import ListaEnlazada
 from proyecto.fase1.listaDobleCircular import  listaDobleCircular
-from proyecto.fase1.cons import Peliculas
+from proyecto.fase1.cons import Peliculas, Usuario
 from proyecto.fase1.listaDoble import listaDoble
 
 # Create your views here.
@@ -38,9 +38,9 @@ def crearUser(request):
         telefono = request.POST.get('telefono')
         correo = request.POST.get('correo')
         contrasena = request.POST.get('contrasena')
-        objeto = {'rol':rol,'nombre':nombre,'apellido':apellido,'telefono':telefono,'correo':correo,'contrasena':contrasena}
+        objeto = Usuario(rol,nombre,apellido,telefono,correo,contrasena) 
         lista.add(objeto)
-
+        lista.GuardarXML(rol,nombre,apellido,telefono,correo,contrasena)
         return redirect('listaUser')
     return render(request, 'usuarios/crearUsuario.html')
 
@@ -50,18 +50,20 @@ def actualizarUser(request, correo):
         if request.method == 'POST':
             usuario.rol = request.POST.get('rol')
             usuario.nombre = request.POST.get('nombre')
-            usuario.apellido = request.POST.get('apellido')#No actualiza un nuevo usuario creado
+            usuario.apellido = request.POST.get('apellido')
             usuario.telefono = request.POST.get('telefono')
             usuario.correo = request.POST.get('correo')
             usuario.contrasena = request.POST.get('contrasena')
+            lista.EditarUsuario(correo, usuario.rol, usuario.nombre, usuario.apellido, usuario.telefono,
+                          usuario.correo, usuario.contrasena)
             return redirect('listaUser')
         return render(request, 'usuarios/actualizarUser.html', {'usuario': usuario})
     return redirect('listaUser')
 
 
     
-def eliminarUser(request, correo):
-    lista.remove(correo)
+def eliminarUsuario(request, correo):
+    lista.EliminarUsuario(correo)
     return redirect('listaUser')
 
 
@@ -110,11 +112,6 @@ def actualizarPeli(request, titulo):
     return redirect('listaPeli')
 
 def eliminarPeli(request, titulo):
-    listaCir.remove(titulo)
-    return redirect('listaPeli')
-
-
-def eliminarPeli(request, titulo):
     
-    listaCir.remove(titulo)
+    listaCir.eliminarPelicula(titulo)
     return redirect('listaPeli')

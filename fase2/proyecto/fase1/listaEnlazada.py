@@ -18,26 +18,20 @@ class ListaEnlazada:
                 actual = actual.siguiente
             actual.siguiente = nuevo
 
-    def remove(self, dato):
-        if self.cabeza is None:
-            return
+    def delete(self, correo):
+        actual = self.head
+        anterior = None
 
-        if self.cabeza.dato == dato:
-            self.cabeza = self.cabeza.siguiente
-            return
-
-        actual = self.cabeza
-        previo = None
         while actual is not None:
-            if actual.dato == dato:
-                break
-            previo = actual
+            if actual.dato.correo == correo:
+                if anterior is None:
+                    self.head = actual.siguiente
+                    return 1
+                else:
+                    anterior.siguiente = actual.siguiente
+                    return 1
+            anterior = actual
             actual = actual.siguiente
-
-        if actual is None:
-            return
-
-        previo.siguiente = actual.siguiente
 
 
     def CargarXML(self, operacion,ruta):
@@ -73,47 +67,36 @@ class ListaEnlazada:
             actual = actual.siguiente            
             
 
-    def EditarUsuario(self, correo):
+    def EditarUsuario(self, correo, nuevoRol, nuevoNombre, nuevoApellido, nuevoTelefono, nuevoCorreo, nuevoContra):
         actual = self.cabeza
         while actual is not None:
             if actual.dato.correo == correo:
-                print("Enter para dejar dato actual")
-                nuevoRol = input(f"Ingresar el nuevo rol: actual: {actual.dato.rol} nuevo: ") or actual.dato.rol
-                nuevoNombre = input(f"Ingresar el nuevo nombre: {actual.dato.nombre} nuevo: ") or actual.dato.nombre
-                nuevoApellido = input(f"Ingresar el nuevo apelldio: {actual.dato.apellido} nuevo: ") or actual.dato.apellido
-                nuevoTelefono = input(f"Ingresar el nuevo telefono: {actual.dato.telefono} nuevo: ") or actual.dato.telefono
-                nuevoCorreo = input(f"Ingresar el nuevo correo: {actual.dato.correo} nuevo: ") or actual.dato.correo
-                nuevoContra = input(f"Ingresar la nueva contra: {actual.dato.contrasena} nuevo: ") or actual.dato.contrasena
+                actual.dato.rol = nuevoRol
+                actual.dato.nombre = nuevoNombre
+                actual.dato.apellido = nuevoApellido
+                actual.dato.telefono = nuevoTelefono
+                actual.dato.correo = nuevoCorreo
+                actual.dato.contrasena = nuevoContra
+
+                tree = ET.parse("datos.xml")
+                root = tree.getroot()
+
+                for usuario in root.findall('usuario'):
+                    correoActual = usuario.find('correo').text
+                    if correoActual == correo:
+                        usuario.find('rol').text = nuevoRol
+                        usuario.find('nombre').text = nuevoNombre
+                        usuario.find('apellido').text = nuevoApellido
+                        usuario.find('telefono').text = nuevoTelefono
+                        usuario.find('correo').text = nuevoCorreo
+                        usuario.find('contrasena').text = nuevoContra
+                        tree.write("datos.xml")
+                        print("Usuario editado exitosamente.")
                 break
+
             actual = actual.siguiente
 
-
-        if actual is not None:
-            actual.dato.rol = nuevoRol
-            actual.dato.nombre = nuevoNombre
-            actual.dato.apellido = nuevoApellido
-            actual.dato.telefono = nuevoTelefono
-            actual.dato.correo = nuevoCorreo
-            actual.dato.contrasena = nuevoContra
-
-
-            tree = ET.parse("datos.xml")
-            root = tree.getroot()
-
-            for usuario in root.findall('usuario'):
-                correoActual = usuario.find('correo').text
-                if correoActual == correo:
-                    usuario.find('rol').text = nuevoRol
-                    usuario.find('nombre').text = nuevoNombre
-                    usuario.find('apellido').text = nuevoApellido
-                    usuario.find('telefono').text = nuevoTelefono
-                    usuario.find('correo').text = nuevoCorreo
-                    usuario.find('contrasena').text = nuevoContra
-                    tree.write("datos.xml")
-                    print("Usuario editado exitosamente.")
-                break
-            
-        else:
+        if actual is None:
             print("Usuario no encontrado.")
             
     def EliminarUsuario(self, correo):

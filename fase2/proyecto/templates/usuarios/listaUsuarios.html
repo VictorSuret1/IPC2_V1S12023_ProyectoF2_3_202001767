@@ -31,7 +31,8 @@
                     <td>{{ user.contrasena }}</td>
                     <td>
                         <a href="{% url 'actualizarUser' user.correo%}">Actualizar</a>
-                        <a href="{% url 'eliminarUser' user.correo%}">Eliminar</a>
+                        <a href="{% url 'eliminarUsuario' user.correo%}">Eliminar</a>
+
                     </td>
                 </tr>
                 {% endfor %}

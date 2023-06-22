@@ -7,12 +7,4 @@
         <correo>john.doe@example.com</correo>
         <contrasena>mipassword123</contrasena>
     </usuario>
-    <usuario>
-        <rol>administrador</rol>
-        <nombre>Jane</nombre>
-        <apellido>Smith</apellido>
-        <telefono>987654321</telefono>
-        <correo>jane.smith@example.com</correo>
-        <contrasena>password456</contrasena>
-    </usuario>
-</usuarios>
+    <usuario><rol>admin123</rol><nombre>admin123</nombre><apellido>admin</apellido><telefono>123</telefono><correo>admin</correo><contrasena>admin</contrasena></usuario></usuarios>
