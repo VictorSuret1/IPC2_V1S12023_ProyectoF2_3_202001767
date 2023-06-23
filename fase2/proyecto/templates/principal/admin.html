@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <h1>Gestion</h1>
+        <button onclick="listaUser()">Usuarios</button>
+        <button onclick="listaPeli()">Peliculas</button>
+        <button onclick="listaSalas()">Salas</button>
+        <button>Tarjetas</button>
+        <button>Boletos Comprados</button>
+
+        <script>
+            function listaUser() {
+                window.location.href = "{% url 'listaUser' %}";
+            }
+        </script>
+
+        <script>
+            function listaPeli() {
+                window.location.href = "{% url 'listaPeli' %}";
+            }
+        </script>
+        <script>
+            function listaSalas() {
+                window.location.href = "{% url 'listaSalas' %}";
+            }
+        </script>
+
+        
+        </script>
+    </body>
+</html>

@@ -20,6 +20,15 @@ class listaDoble:
             actual.siguiente = nuevo_nodo
             nuevo_nodo.anterior = actual
 
+    def loop(self):
+        actual = self.cabeza
+        while actual:
+            yield actual.dato
+            actual = actual.siguiente
+
+    def __iter__(self):
+        return iter(self.loop())
+
     def cargaSalas(self,ruta):
         tree = ET.parse(ruta)
         root = tree.getroot()
@@ -42,14 +51,7 @@ class listaDoble:
             print(f"Cine: {sala.cine} | Numero de Sala: {sala.numero} | Asientos: {sala.asientos}")
             actual = actual.siguiente
 
-    def loop(self):
-        actual = self.cabeza
-        while actual:
-            yield actual.dato
-            actual = actual.siguiente
-
-    def __iter__(self):
-        return iter(self.loop())
+    
 
     def editarSalas(self):
         numSala = input("Ingrese el numero de sala que desea editar: ")

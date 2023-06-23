@@ -1,8 +1,12 @@
 from django.shortcuts import render,redirect
 from proyecto.fase1.listaEnlazada import ListaEnlazada
 from proyecto.fase1.listaDobleCircular import  listaDobleCircular
-from proyecto.fase1.cons import Peliculas, Usuario
+from proyecto.fase1.cons import Peliculas, Usuario, Salas
 from proyecto.fase1.listaDoble import listaDoble
+
+from django.shortcuts import render
+
+
 
 # Create your views here.
 global lista
@@ -18,7 +22,31 @@ pelis = 'peliculas.xml'
 global salas
 salas = 'salas.xml'
 
+def default_view(request):
+    return render(request, 'principal/Home.html')
 
+def cliente(request):
+    return render(request, 'principal/cliente.html')
+
+def administrador(request):
+    return render(request, 'principal/admin.html')
+
+def login(request):
+    admin()
+    if request.method == 'POST':
+        correo = request.POST.get('correo')
+        contrasena = request.POST.get('contrasena')
+        rolUser = lista.login(correo, contrasena)
+
+        if rolUser == 'cliente':
+            return redirect('cliente')
+        elif rolUser == 'administrador':
+            return redirect('administrador')
+
+    return render(request, 'principal/login.html')
+
+    
+    
 def cargaXMLUsuarios(request):
     if request.method == 'POST':
         lista.CargarXML(1,datos)
@@ -28,7 +56,16 @@ def listaUser(request):
     usuario = list(lista)
     return render(request, 'usuarios/listaUsuarios.html', {'usuario': usuario})
 
-
+def admin():
+    rol = 'administrador'
+    nombre= 'admin'
+    apellido = 'admin'
+    telefono = 123123
+    correo = 'admin'
+    contrasena = 'admin'
+    objeto = Usuario(rol,nombre,apellido,telefono,correo,contrasena)
+    lista.add(objeto)
+    
 def crearUser(request):
     if request.method == 'POST':
         
@@ -59,16 +96,10 @@ def actualizarUser(request, correo):
             return redirect('listaUser')
         return render(request, 'usuarios/actualizarUser.html', {'usuario': usuario})
     return redirect('listaUser')
-
-
-    
+ 
 def eliminarUsuario(request, correo):
     lista.EliminarUsuario(correo)
     return redirect('listaUser')
-
-
-
-
 
 def listaPeli(request):
     peliculas = list(listaCir)
@@ -111,7 +142,25 @@ def actualizarPeli(request, titulo):
         return render(request, 'peliculas/actualizarPeli.html', {'peli': peli})
     return redirect('listaPeli')
 
-def eliminarPeli(request, titulo):
-    
+def eliminarPeli(request, titulo):   
     listaCir.eliminarPelicula(titulo)
     return redirect('listaPeli')
+
+def cargaXMLSalas(request):
+    if request.method == 'POST':
+        listaDob.cargaSalas(salas)
+    return render(request, 'salas/listaSalas.html', {'sala': listaDob})
+
+def listaSalas(request):
+    sala = list(listaDob)
+    return render(request, 'salas/listaSalas.html', {'salas': sala})
+
+def crearSala(request):
+    if request.method == 'POST':
+        cine = request.POST.get('cine')
+        numero =request.POST.get('numero')
+        asientos = request.POST.get('asientos')
+        sala = Salas(cine,numero,asientos)
+        listaDob.add(sala)
+        return redirect('listaSalas')
+    return render(request, 'salas/crearSala.html')

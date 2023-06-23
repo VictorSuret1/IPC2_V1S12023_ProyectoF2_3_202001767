@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <button onclick="redirectToLogin()">Iniciar Sesion</button>
+        <script>
+            function redirectToLogin() {
+                window.location.href = "{% url 'login' %}";
+            }
+        </script>
+        <button>Registrar</button>
+    </body>
+</html>

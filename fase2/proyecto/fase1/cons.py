@@ -49,3 +49,10 @@ class Salas:
         self.cine = cine
         self.numero =numero
         self.asientos = asientos
+
+    def to_dict(self):
+        return{
+            'cine': self.cine,
+            'numero':self.numero,
+            'asiientos':self.asientos
+        }

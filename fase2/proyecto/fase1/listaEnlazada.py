@@ -34,6 +34,15 @@ class ListaEnlazada:
             actual = actual.siguiente
 
 
+    def loop(self):
+        actual = self.cabeza
+        while actual:
+            yield actual.dato
+            actual = actual.siguiente
+        
+
+    def __iter__(self):
+        return iter(self.loop())  
     def CargarXML(self, operacion,ruta):
         tree = ET.parse(ruta)
         root = tree.getroot()
@@ -162,15 +171,7 @@ class ListaEnlazada:
             actual = actual.siguiente
             actual.dato.imprimir()
 
-    def loop(self):
-        actual = self.cabeza
-        while actual:
-            yield actual.dato
-            actual = actual.siguiente
-        
-
-    def __iter__(self):
-        return iter(self.loop())    
+  
 
     def login(self, correo, contrasena):
         actual = self.cabeza
@@ -179,10 +180,8 @@ class ListaEnlazada:
         while actual is not None:
             if actual.dato.correo == correo and actual.dato.contrasena == contrasena:
                 if actual.dato.rol == "cliente":
-                    print("Inicio de sesión exitoso como cliente.")
                     rolUser = "cliente"
                 elif actual.dato.rol == "administrador":
-                    print("Inicio de sesión exitoso como administrador.")
                     rolUser = "administrador"
                 else:
                     print("No se pudo determinar el rol para el usuario.")
