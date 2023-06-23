@@ -50,6 +50,7 @@ def login(request):
 def cargaXMLUsuarios(request):
     if request.method == 'POST':
         lista.CargarXML(1,datos)
+        return redirect('listaUser')
     return render(request, 'usuarios/listaUsuarios.html', {'usuario': lista})
 
 def listaUser(request):
@@ -108,6 +109,7 @@ def listaPeli(request):
 def cargaXML(request):
     if request.method == 'POST':
         listaCir.CargarPelis(pelis)
+        return redirect('listaPeli')
     return render(request, 'peliculas/listaPeliculas.html', {'peliculas': listaCir})
 
 def crearPeli(request):
@@ -149,6 +151,7 @@ def eliminarPeli(request, titulo):
 def cargaXMLSalas(request):
     if request.method == 'POST':
         listaDob.cargaSalas(salas)
+        return redirect('listaSalas')
     return render(request, 'salas/listaSalas.html', {'sala': listaDob})
 
 def listaSalas(request):

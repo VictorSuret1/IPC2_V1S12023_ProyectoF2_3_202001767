@@ -41,6 +41,6 @@ urlpatterns = [
     path('peliculas/eliminarPeli/<str:titulo>', eliminarPeli, name='eliminarPeli'),
 
     path('salas/', listaSalas,name='listaSalas' ),
-    path('salas/carga/',cargaXMLSalas, name='cargaXMLSalas'),
+    path('salas/cargar-xml/',cargaXMLSalas, name='cargaXMLSalas'),
     path('salas/crearSala/', crearSala, name='crearSala'),
 ]
