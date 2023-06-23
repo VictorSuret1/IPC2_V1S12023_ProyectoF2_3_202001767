@@ -50,6 +50,7 @@ def login(request):
 def cargaXMLUsuarios(request):
     if request.method == 'POST':
         lista.CargarXML(1,datos)
+        return redirect('listaUser')
     return render(request, 'usuarios/listaUsuarios.html', {'usuario': lista})
 
 def listaUser(request):
@@ -121,8 +122,8 @@ def crearPeli(request):
         hora = request.POST.get('hora')
         imagen = request.POST.get('imagen')
         precio = request.POST.get('precio')
-        peli = Peliculas(categoria, titulo, director, anio, fecha, hora, imagen, precio)
-        listaCir.add(peli)
+        
+        listaCir.registraPeli(categoria, titulo, director, anio, fecha, hora, imagen, precio)
         return redirect('listaPeli')
     return render(request, 'peliculas/crearPelicula.html')
 
@@ -138,6 +139,10 @@ def actualizarPeli(request, titulo):
             peli.hora = request.POST.get('hora')
             peli.imagen = request.POST.get('imagen')
             peli.precio = request.POST.get('precio')
+
+            # Llamar a la función editar para actualizar el archivo XML
+            listaCir.editar(titulo, peli.categoria, peli.titulo, peli.director, peli.anio, peli.fecha, peli.hora, peli.imagen, peli.precio)
+            
             return redirect('listaPeli')
         return render(request, 'peliculas/actualizarPeli.html', {'peli': peli})
     return redirect('listaPeli')
@@ -149,6 +154,7 @@ def eliminarPeli(request, titulo):
 def cargaXMLSalas(request):
     if request.method == 'POST':
         listaDob.cargaSalas(salas)
+        return redirect('listaSalas')
     return render(request, 'salas/listaSalas.html', {'sala': listaDob})
 
 def listaSalas(request):
@@ -160,7 +166,10 @@ def crearSala(request):
         cine = request.POST.get('cine')
         numero =request.POST.get('numero')
         asientos = request.POST.get('asientos')
-        sala = Salas(cine,numero,asientos)
-        listaDob.add(sala)
+        listaDob.AgregarNuevaSala(cine,numero,asientos)
+        listaDob.agregarSala(cine,numero,asientos,salas)
         return redirect('listaSalas')
     return render(request, 'salas/crearSala.html')
+
+def editarSala(request):
+    pass

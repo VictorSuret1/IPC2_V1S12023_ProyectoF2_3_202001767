@@ -100,18 +100,13 @@ class listaDobleCircular:
                 # Se ha recorrido toda la lista
                 break
 
-
+    
     
 
-    def registraPeli(self):
-        categoria = input("Ingresa la Categoria : ")
-        titulo = input("Ingresa el Titulo : ")
-        director = input("Ingresa el director : ")
-        anio = input("Ingresa el anio : ")
-        fecha = input("Ingresa el fecha : ")
-        hora = input("Ingresa el hora : ")
+    def registraPeli(self,categoria, titulo, director, anio, fecha, hora,imagen,precio):
+        
 
-        peli = Peliculas(categoria, titulo, director, anio, fecha, hora)
+        peli = Peliculas(categoria, titulo, director, anio, fecha, hora,imagen,precio)
         self.add(peli)
         # Agregar los datos al archivo XML
         tree = ET.parse('peliculas.xml')
@@ -130,6 +125,8 @@ class listaDobleCircular:
                 ET.SubElement(nueva_pelicula, 'anio').text = anio
                 ET.SubElement(nueva_pelicula, 'fecha').text = fecha
                 ET.SubElement(nueva_pelicula, 'hora').text = hora
+                ET.SubElement(nueva_pelicula, 'imagen').text = imagen
+                ET.SubElement(nueva_pelicula, 'precio').text = precio
                 break
 
         # Si la categoría no existe, crear una nueva
@@ -143,11 +140,34 @@ class listaDobleCircular:
             ET.SubElement(nueva_pelicula, 'anio').text = anio
             ET.SubElement(nueva_pelicula, 'fecha').text = fecha
             ET.SubElement(nueva_pelicula, 'hora').text = hora
+            ET.SubElement(nueva_pelicula, 'imagen').text = imagen
+            ET.SubElement(nueva_pelicula, 'precio').text = precio
 
         # Guardar los cambios en el archivo XML
         tree.write('peliculas.xml')
 
-   
+    def editar(self, titulo, nueva_categoria, nuevo_titulo, nuevo_director, nuevo_anio, nueva_fecha, nueva_hora, nueva_imagen, nuevo_precio):
+        # Cargar el archivo XML
+        tree = ET.parse('peliculas.xml')
+        root = tree.getroot()
+
+        # Buscar la película con el título dado en el XML y actualizar sus datos
+        for categoria in root.findall("categoria"):
+            peliculas = categoria.find('peliculas')
+            for peli in peliculas.findall('pelicula'):
+                if peli.find('titulo').text == titulo:
+                    peli.find('titulo').text = nuevo_titulo
+                    peli.find('director').text = nuevo_director
+                    peli.find('anio').text = nuevo_anio
+                    peli.find('fecha').text = nueva_fecha
+                    peli.find('hora').text = nueva_hora
+                    peli.find('imagen').text = nueva_imagen
+                    peli.find('precio').text = nuevo_precio
+                    break
+
+        # Guardar los cambios en el archivo XML
+        tree.write('peliculas.xml')
+        
     def EditarPelicula(self, titulo):
         actual = self.cabeza
 
