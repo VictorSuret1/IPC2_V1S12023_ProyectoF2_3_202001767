@@ -56,3 +56,19 @@ class Salas:
             'numero':self.numero,
             'asiientos':self.asientos
         }
+    
+
+class Tarjetas:
+    def __init__(self,tipo,numero,titular,fecha):
+        self.tipo = tipo
+        self.numero = numero
+        self.titular = titular
+        self.fecha = fecha
+
+    def to_dict(self):
+        return{
+            'tipo':self.tipo,
+            'numero':self.numero,
+            'titular':self.titular,
+            'fecha':self.titular
+        }

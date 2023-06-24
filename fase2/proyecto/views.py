@@ -3,6 +3,8 @@ from proyecto.fase1.listaEnlazada import ListaEnlazada
 from proyecto.fase1.listaDobleCircular import  listaDobleCircular
 from proyecto.fase1.cons import Peliculas, Usuario, Salas
 from proyecto.fase1.listaDoble import listaDoble
+import xml.etree.ElementTree as ET
+import json
 
 from django.shortcuts import render
 
@@ -21,6 +23,11 @@ global pelis
 pelis = 'peliculas.xml'
 global salas
 salas = 'salas.xml'
+global favs
+favs = []
+
+
+
 
 def default_view(request):
     return render(request, 'principal/Home.html')
@@ -31,8 +38,17 @@ def cliente(request):
 def administrador(request):
     return render(request, 'principal/admin.html')
 
+
+from django.http import HttpResponse, JsonResponse
+
+
+def favoritas():
+    for x in favs:
+        print(x)
+
 def login(request):
     admin()
+    favoritas()
     if request.method == 'POST':
         correo = request.POST.get('correo')
         contrasena = request.POST.get('contrasena')
@@ -45,7 +61,6 @@ def login(request):
 
     return render(request, 'principal/login.html')
 
-    
     
 def cargaXMLUsuarios(request):
     if request.method == 'POST':
@@ -102,6 +117,7 @@ def eliminarUsuario(request, correo):
     lista.EliminarUsuario(correo)
     return redirect('listaUser')
 
+#carga tabla de administrador
 def listaPeli(request):
     peliculas = list(listaCir)
     return render(request, 'peliculas/listaPeliculas.html', {'peliculas': peliculas})
@@ -110,6 +126,17 @@ def cargaXML(request):
     if request.method == 'POST':
         listaCir.CargarPelis(pelis)
     return render(request, 'peliculas/listaPeliculas.html', {'peliculas': listaCir})
+
+#carga Tabla de cliente
+def listaPeliCliente(request):
+    peli = list(listaCir)
+    return render(request, 'principal/cliente.html', {'peli':peli})
+
+def cargalistaCliente(request):
+    if request.method == 'POST':
+        listaCir.CargarPelis(pelis)
+    return render(request ,'principal/cliente.html', {'peli':listaCir})
+
 
 def crearPeli(request):
     if request.method == 'POST':
@@ -171,5 +198,21 @@ def crearSala(request):
         return redirect('listaSalas')
     return render(request, 'salas/crearSala.html')
 
-def editarSala(request):
-    pass
+def actualizarSalas(request, numero):
+    sala = next((sala for sala in listaDob if sala.numero == numero), None)
+    if sala:
+        if request.method == 'POST':
+            sala.cine = request.POST.get('cine')
+            sala.numero = request.POST.get('numero')
+            sala.asientos = request.POST.get('asientos')
+            listaDob.editarSalas(numero, sala.numero, sala.asientos, salas)
+            
+            return redirect('listaSalas')
+        return render(request, 'salas/actualizarSalas.html', {'sala': sala})
+
+    return redirect('listaSalas')
+
+def eliminarSalas(request, numero):
+    listaDob.eliminarSalas(numero)
+    return redirect('listaSalas')
+    

@@ -14,16 +14,12 @@
             <numero>#USACIPC2_202212333_3</numero>
             <asientos>150</asientos>
         </sala>
-        <sala><numero>asda</numero><asientos>123</asientos></sala></salas>
+        </salas>
     </cine>
     
     <cine>
         <nombre>Cine2</nombre>
     <salas>
-        <sala>
-            <numero>123</numero>
-            <asientos>12</asientos>
-        </sala>
-    </salas>
+        </salas>
     </cine>
-</cines>
+<cine><nombre>Cine3</nombre><salas /></cine></cines>

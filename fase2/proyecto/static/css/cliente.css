@@ -1,0 +1,23 @@
+.all{
+    background-color: #0057C7;
+}
+.header{
+    background-color: grey;
+    color: white;
+}
+
+.headre .navLinks{
+    list-style: none;
+}
+.header .navLinks li{
+    display:  inline-block;
+    padding: 0 20px;
+}
+.header .navLinks a{
+    font-size: 700;
+    color: white;
+    text-decoration: none;
+}
+.header .navLinks li a:hover{
+    color: chocolate;
+}

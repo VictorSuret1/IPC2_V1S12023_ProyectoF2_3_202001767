@@ -22,8 +22,16 @@
                     <td>{{ sala.cine }}</td>
                     <td>{{ sala.numero }}</td>
                     <td>{{ sala.asientos }}</td>
+                    <td>
+                        <a href="{% url 'actualizarSalas' sala.numero %}">Actualizar</a>
+                        <a href="{% url 'eliminarSalas' sala.numero %}">Eliminar</a>
+
+                       
+                    </td>
                 </tr>
+                
                 {% endfor %}
+                
             </tbody>
         </table>
     </body>

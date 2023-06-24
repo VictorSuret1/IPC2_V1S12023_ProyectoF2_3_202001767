@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Actualizar Usuario</title>
+    </head>
+    <body>
+        <h1>Actualizar Usuario</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <label for="cine">Cine</label>
+            <input type="text" name="cine" value="{{sala.cine}}" required>
+            <label for="numero">Numero</label>
+            <input type="text" name="numero" value="{{sala.numero}}" required>
+            <label for="asientos">Asientos</label>
+            <input type="text" name="asientos" value="{{sala.asientos}}" required>
+            
+            <button type="submit">Actualizar</button>
+        </form>
+    </body>
+</html>

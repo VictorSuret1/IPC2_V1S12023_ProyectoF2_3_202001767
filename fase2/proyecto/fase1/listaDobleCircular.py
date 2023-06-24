@@ -1,3 +1,4 @@
+import itertools
 import xml.etree.ElementTree as ET
 from proyecto.fase1.nodos import NodoCircular
 from proyecto.fase1.cons import Peliculas
@@ -27,7 +28,7 @@ class listaDobleCircular:
 
         self.lista.append(nuevo_nodo)  # Agregar el nuevo nodo a la lista
 
-
+    
     def remove(self, titulo):
         nodo_actual = self.cabeza
 
@@ -84,23 +85,8 @@ class listaDobleCircular:
     def __iter__(self):
      return iter(self.loop())
 
-    def MostrarLista(self):
-        actual = self.cabeza
-
-        if actual is None:
-            print("La lista está vacía.")
-            return
-
-        print("Datos en la lista:")
-        while True:
-            print(f"Titulo: {actual.dato.titulo} | Director: {actual.dato.director} | Anio: {actual.dato.anio} | Fecha: {actual.dato.fecha} | Hora: {actual.dato.hora}")
-
-            actual = actual.siguiente
-            if actual == self.cabeza:
-                # Se ha recorrido toda la lista
-                break
-
-    
+    def get_first_10_movies(self):
+        return list(itertools.islice(self.loop(), 10))
     
 
     def registraPeli(self,categoria, titulo, director, anio, fecha, hora,imagen,precio):

@@ -18,8 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from proyecto.views import default_view, login, cliente, administrador
 from proyecto.views import listaUser,crearUser,cargaXMLUsuarios,actualizarUser,eliminarUsuario,listaPeli,crearPeli,cargaXML, actualizarPeli, eliminarPeli,listaSalas
-from proyecto.views import cargaXMLSalas, crearSala                                
-
+from proyecto.views import cargaXMLSalas, crearSala, actualizarSalas, eliminarSalas ,cargalistaCliente,agregar_a_favoritos
 urlpatterns = [
     path('', default_view, name='default'),
     path('login/' ,login, name='login' ),
@@ -33,6 +32,10 @@ urlpatterns = [
     path('usuarios/actualizar/<str:correo>', actualizarUser, name='actualizarUser'),
     path('usuarios/eliminarUsuario/<str:correo>', eliminarUsuario, name="eliminarUsuario"),
 
+    path('cliente/cargalistaCliente',cargalistaCliente,name='cargalistaCliente'),
+
+    path('agregar_a_favoritos/', agregar_a_favoritos, name='agregar_a_favoritos'),
+
 
     path('peliculas/', listaPeli, name = 'listaPeli'),
     path('peliculas/crearPelicula/', crearPeli, name = 'crearPelicula' ),
@@ -43,4 +46,6 @@ urlpatterns = [
     path('salas/', listaSalas,name='listaSalas' ),
     path('salas/carga/',cargaXMLSalas, name='cargaXMLSalas'),
     path('salas/crearSala/', crearSala, name='crearSala'),
+    path('salas/actualizarSalas/<str:numero>', actualizarSalas, name='actualizarSalas'),
+    path('salas/eliminarSalas/<str:numero>',eliminarSalas,name='eliminarSalas' )
 ]
