@@ -3,23 +3,27 @@
 <head>
     <h2>Bienvenido </h2>
     {% load static %}
-        <link rel="stylesheet" href="{% static 'css/cliente.css' %}" >
+        <link rel="stylesheet" href="{% static 'css/PrincipalCliente.css' %}" >
 </head>
 <body>
-    <form method="POST" action="{% url 'cargalistaCliente' %}">
-        {% csrf_token %}
-        <button  type="submit"  >Cargar XML</button>
     
-    </form>
+    
     <header class="header">
         <nav class="menu">
-            <ul class = "navLinks">
-            <li><a onclick="mostrarVentana()">listado Peliculas</a></li>
-            <li><a href="#" >Favoritos</a></li>
-            <li><a href="#">Historial</a></li>
+            <ul class="navLinks" style="display: flex;">
+                <li><a onclick="mostrarVentana()">VER </a></li>
+                <li id="opcionGeneral" style="display: none;"><a onclick="mostrarOpcionGeneral()">Ver Listado</a></li>
+                <li><a href="#">Favoritos</a></li>
+                <li><a href="#">Historial</a></li>
             </ul>
         </nav>
     </header>
+    <div id="contenidoGeneral" style="display: none;">
+        <form id="myForm" method="POST" action="{% url 'cargalistaCliente' %}">
+            {% csrf_token %}
+            <button id="submitButton" type="submit">General</button>
+        </form>
+    </div>
 
     <div id="miVentana" class="ventana-emergente" style="display: none;">
         
@@ -42,7 +46,7 @@
                         <td>{{ p.fecha }}</td>
                         <td>{{ p.hora }}</td>
                         <td>{{ p.precio }}</td>
-                        <td><a href="#" class="Estrella" onclick="agregarFavorito('{{ p.titulo }}')"><span style="color: gold;">&#9733;</span></a></td>
+                        <td><a href="#" class="Estrella" ><span style="color: gold;">&#9733;</span></a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -63,31 +67,18 @@
         function ocultarVentana() {
           document.getElementById('miVentana').style.display = 'none';
         }
-      
-        function agregarFavorito(titulo) {
-        // Buscar la fila correspondiente al título de la película
-        var fila = document.querySelector('tr[data-id="' + titulo + '"]');
         
-        // Obtener los datos de la fila seleccionada
-        var categoria = fila.cells[1].textContent;
-        var fecha = fila.cells[3].textContent;
-        var hora = fila.cells[4].textContent;
-        var precio = fila.cells[5].textContent;
+    
+    function mostrarVentana() {
+    document.getElementById('miVentana').style.display = 'block';
+    document.getElementById('opcionGeneral').style.display = 'block';
+}
+
+function mostrarOpcionGeneral() {
+    document.getElementById('contenidoGeneral').style.display = 'block';
+}
+       
         
-        // Crear un objeto con los datos
-        var favorito = {
-            'titulo': titulo,
-            'categoria': categoria,
-            'fecha': fecha,
-            'hora': hora,
-            'precio': precio
-        };
-        
-        // Agregar el objeto a la lista favs
-        viws.favs.push(favorito);
-        
-        console.log(view.favs); // Mostrar la lista favs en la consola (para verificar)
-    }
-      </script>
+</script>
 </body>
 </html>

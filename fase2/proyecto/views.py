@@ -30,7 +30,8 @@ favs = []
 
 
 def default_view(request):
-    return render(request, 'principal/Home.html')
+    peli = cargarPeliculasDesdeXML()
+    return render(request, 'principal/Home.html', {'peli':peli})
 
 def cliente(request):
     return render(request, 'principal/cliente.html')
@@ -39,23 +40,19 @@ def administrador(request):
     return render(request, 'principal/admin.html')
 
 
-from django.http import HttpResponse, JsonResponse
-
-
 def favoritas():
     for x in favs:
         print(x)
 
 def login(request):
     admin()
-    favoritas()
     if request.method == 'POST':
         correo = request.POST.get('correo')
         contrasena = request.POST.get('contrasena')
         rolUser = lista.login(correo, contrasena)
 
         if rolUser == 'cliente':
-            return redirect('cliente')
+            return redirect('cargalistaCliente')
         elif rolUser == 'administrador':
             return redirect('administrador')
 
@@ -117,10 +114,45 @@ def eliminarUsuario(request, correo):
     lista.EliminarUsuario(correo)
     return redirect('listaUser')
 
+import xml.dom.minidom as minidom
+
+def cargarPeliculasDesdeXML():
+    doc = minidom.parse('peliculas.xml')  # Parsear el archivo XML
+
+    peliculas = []
+    categorias = doc.getElementsByTagName('categoria')
+    for categoria in categorias:
+        nombre_categoria = categoria.getElementsByTagName('nombre')[0].firstChild.data
+        peliculas_categoria = categoria.getElementsByTagName('pelicula')
+        for pelicula in peliculas_categoria:
+            titulo = pelicula.getElementsByTagName('titulo')[0].firstChild.data
+            director = pelicula.getElementsByTagName('director')[0].firstChild.data
+            anio = pelicula.getElementsByTagName('anio')[0].firstChild.data
+            fecha = pelicula.getElementsByTagName('fecha')[0].firstChild.data
+            hora = pelicula.getElementsByTagName('hora')[0].firstChild.data
+            imagen = pelicula.getElementsByTagName('imagen')[0].firstChild.data
+            precio = pelicula.getElementsByTagName('precio')[0].firstChild.data
+
+            peliculas.append({
+                'categoria': nombre_categoria,
+                'titulo': titulo,
+                'director': director,
+                'anio': anio,
+                'fecha': fecha,
+                'hora': hora,
+                'imagen': imagen,
+                'precio': precio
+            })
+
+    return peliculas
+
+
+
 #carga tabla de administrador
 def listaPeli(request):
-    peliculas = list(listaCir)
+    peliculas = cargarPeliculasDesdeXML()
     return render(request, 'peliculas/listaPeliculas.html', {'peliculas': peliculas})
+
 
 def cargaXML(request):
     if request.method == 'POST':
@@ -129,7 +161,7 @@ def cargaXML(request):
 
 #carga Tabla de cliente
 def listaPeliCliente(request):
-    peli = list(listaCir)
+    peli = cargarPeliculasDesdeXML()
     return render(request, 'principal/cliente.html', {'peli':peli})
 
 def cargalistaCliente(request):

@@ -21,3 +21,17 @@
 .header .navLinks li a:hover{
     color: chocolate;
 }
+
+table {
+    width: 100%;
+    background-color: grey;
+    padding: 15px;
+    color: black;
+  }
+  
+  th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  

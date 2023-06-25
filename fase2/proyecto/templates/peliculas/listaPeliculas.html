@@ -2,16 +2,16 @@
 <html >
     <head>
         {% load static %}
-        <link rel="stylesheet" href="{% static 'css/listaPeliculas.css' %}" >
+        <link rel="stylesheet" href="{% static 'css/listaPelis.css' %}" >
         <title class="Titulo">Gestion Peliculas</title>
         
     </head>
-    <body>
+    <body class="back">
         <form method="POST" action="{% url 'cargaXML' %}">
             {% csrf_token %}
-            <button type="submit">Cargar XML</button>
+            
         </form>
-        <a href="{% url 'crearPelicula' %}">Crear Pelicula</a>
+        <a href="{% url 'crearPelicula' %}" class="button type3">Crear Pelicula</a>
         
         <h1>Lista Peliculas</h1>
         <table >
@@ -38,8 +38,8 @@
                     <td><img src="{{ peli.imagen }} " width="100"></td>
                     <td>{{ peli.precio }}</td>
                     <td>
-                        <a href="{% url 'actualizarPeli' peli.titulo %}">Actualizar</a>
-                        <a href="{% url 'eliminarPeli' peli.titulo %}">Eliminar</a>
+                        <a href="{% url 'actualizarPeli' peli.titulo %}" class="button type3">Actualizar</a>
+                        <a href="{% url 'eliminarPeli' peli.titulo %}" class="button type3">Eliminar</a>
                     </td>
                 </tr>
                 {% endfor %}
