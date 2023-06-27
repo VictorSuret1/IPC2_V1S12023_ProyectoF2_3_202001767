@@ -94,6 +94,21 @@ def crearUser(request):
         return redirect('listaUser')
     return render(request, 'usuarios/crearUsuario.html')
 
+def registraCliente(request):
+    if request.method == 'POST':
+        rol ='usuario'
+        nombre = request.POST.get('nombre')
+        apellido = request.POST.get('apellido')
+        telefono = request.POST.get('telefono')
+        correo = request.POST.get('correo')
+        contrasena = request.POST.get('contrasena')
+        objeto = Usuario(rol,nombre,apellido,telefono,correo,contrasena) 
+        lista.add(objeto)
+        lista.GuardarXML(rol,nombre,apellido,telefono,correo,contrasena)
+        return redirect('default')
+    return render(request, 'principal/login.html')
+
+
 def actualizarUser(request, correo):
     usuario = next((usuario for usuario in lista if usuario.correo == correo), None)
     if usuario:
@@ -162,12 +177,32 @@ def cargaXML(request):
 #carga Tabla de cliente
 def listaPeliCliente(request):
     peli = cargarPeliculasDesdeXML()
-    return render(request, 'principal/cliente.html', {'peli':peli})
+    return render(request, 'principal/cliente.html', {'peliculas': peli})
+
 
 def cargalistaCliente(request):
     if request.method == 'POST':
         listaCir.CargarPelis(pelis)
-    return render(request ,'principal/cliente.html', {'peli':listaCir})
+    return render(request ,'principal/cliente.html', {'peli': list(listaCir)})
+
+
+def compraBoletoPost(request, nombre):
+    listaCir.favs(nombre)
+    if request.method == 'POST':
+        numBoletos = request.POST.get('numBoletos')
+        salaElegida = request.POST.get('salaElegida')
+        nit = request.POST.get('nit')
+        direccion = request.POST.get('direccion')
+        
+        listaCir.comprarBoletos(nombre, numBoletos, salaElegida, nit, direccion)
+        salas_disponibles = listaCir.mostrarSalas()
+        return render(request, 'principal/compraBoletos.html', {'boletos': listaCir, 'salas_disponibles': salas_disponibles})
+    else:
+        salas_disponibles = listaCir.mostrarSalas()
+        return render(request, 'principal/compraBoletos.html', {'boletos': listaCir, 'salas_disponibles': salas_disponibles})
+
+
+
 
 
 def crearPeli(request):

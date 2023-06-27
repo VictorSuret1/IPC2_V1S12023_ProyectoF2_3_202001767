@@ -1,5 +1,7 @@
 import itertools
 import xml.etree.ElementTree as ET
+
+from django.http import HttpResponse
 from proyecto.fase1.nodos import NodoCircular
 from proyecto.fase1.cons import Peliculas
 
@@ -28,7 +30,9 @@ class listaDobleCircular:
 
         self.lista.append(nuevo_nodo)  # Agregar el nuevo nodo a la lista
 
-    
+   
+
+
     def remove(self, titulo):
         nodo_actual = self.cabeza
 
@@ -71,6 +75,13 @@ class listaDobleCircular:
                 precio= peli.find('precio').text
                 peli = Peliculas(nombre,titulo,director,anio,fecha,hora,imagen,precio)
                 self.add(peli)
+
+    def buscar_pelicula_por_titulo(self, titulo):
+        peliculas_encontradas = []
+        for pelicula in self.loop():
+            if pelicula.titulo == titulo:
+                peliculas_encontradas.append(pelicula)
+        return peliculas_encontradas
 
 
     def loop(self):
@@ -253,81 +264,6 @@ class listaDobleCircular:
 
         print("La película se eliminó correctamente de la lista y el archivo XML.")
 
-    def mostrarPorCategoria(self, categoria):
-        actual = self.cabeza
-
-        if actual is None:
-            print("La lista está vacía.")
-            return
-
-        while True:
-            if actual.dato.categoria == categoria:
-                print(f"Categoría: {actual.dato.categoria} Titulo: {actual.dato.titulo} Director: {actual.dato.director} Año: {actual.dato.anio} Fecha: {actual.dato.fecha} Hora: {actual.dato.hora}")
-                
-
-            actual = actual.siguiente
-
-            if actual == self.cabeza:
-                break
-
-    def mostrarGeneral(self):
-        actual = self.cabeza
-
-        if actual is None:
-            print("La lista está vacía.")
-            return
-
-        print("Datos en la lista:")
-        while True:
-            print(f"Titulo: {actual.dato.titulo} | Director: {actual.dato.director} | Anio: {actual.dato.anio} | Fecha: {actual.dato.fecha} | Hora: {actual.dato.hora}")
-
-            actual = actual.siguiente
-            if actual == self.cabeza:
-                # Se ha recorrido toda la lista
-                break
-    
-    def mostrarCategorias(self):
-        actual = self.cabeza
-
-        if actual is None:
-            print("La lista está vacía.")
-            return
-
-        categorias = set()
-
-        while True:
-            categorias.add(actual.dato.categoria)
-            actual = actual.siguiente
-
-            if actual == self.cabeza:
-                break
-
-        print("Categorías disponibles:")
-        i=0
-        for categoria in categorias:
-            print(categoria)
-            
-
-    def marcarComoFavorita(self, titulo):
-        actual = self.cabeza
-
-        if actual is None:
-            print("La lista está vacía.")
-            return
-
-        while True:
-            if actual.dato.titulo == titulo:
-                actual.dato.favorita = True
-                print(f"La película '{titulo}' ha sido marcada como favorita.")
-                return
-
-            actual = actual.siguiente
-
-            if actual == self.cabeza:
-                break
-
-        print(f"No se encontró la película '{titulo}' en la lista.")
-
 
     def favs(self,nombrePeli):
         actual = self.cabeza
@@ -349,18 +285,10 @@ class listaDobleCircular:
                 break
         
         return self.lista
-    
-    def mostraNuevo(self,nueva_lista):
-        if len(nueva_lista) > 0:
-            print("Datos de Peliculas Favoritas:")
-            for pelicula in nueva_lista:
-                print(f"Título: {pelicula.titulo} | Director: {pelicula.director} | Año: {pelicula.anio} | Fecha: {pelicula.fecha} | Hora: {pelicula.hora}")
-        else:
-            print("No hay datos de Peliculas Favoritas")
 
-    def comprarBoletos(self, nombrePeli):
+    def comprarBoletos(self, name,numBoletos,salaElegida,nit,direccion):
 
-        peliculas = self.favs(nombrePeli)
+        peliculas = self.buscar_pelicula_por_titulo(name)
 
         if not peliculas:
             print("No se encontró la película en la lista.")
@@ -368,13 +296,11 @@ class listaDobleCircular:
 
         pelicula = peliculas[0]
 
-        numBoletos = int(input("Ingrese el número de boletos que desea comprar: "))
 
         while True:
             print("Salas disponibles:")
             salas_disponibles = self.mostrarSalas()
 
-            salaElegida = input("Seleccione una sala: ")
 
             if salaElegida not in salas_disponibles:
                 print("La sala seleccionada no es válida.")
@@ -382,19 +308,23 @@ class listaDobleCircular:
 
             asientos_sala = salas_disponibles[salaElegida]
 
+            asientos_sala = int(asientos_sala)
+            print("Valor de asientos_sala:", asientos_sala)
+            numBoletos = int(numBoletos)
+
             if numBoletos > asientos_sala:
                 print("No hay suficientes asientos en la sala seleccionada.")
                 break
 
-            monto_total = numBoletos * 42
+
+            monto_total = numBoletos * int(pelicula.precio)
 
             print(f"Monto total: {monto_total}")
 
-            nit = input("Ingrese el NIT o ingrese 'CF' para terminar: ")
             if nit== "CF":
                 direccion = "CF"
             else:
-                direccion = input("Ingrese la dirección de facturación: ")
+                direccion = direccion
 
             
 
@@ -438,18 +368,15 @@ class listaDobleCircular:
     def mostrarSalas(self):
         tree = ET.parse('salas.xml')
         root = tree.getroot()
-        
+
         salas_disponibles = {}
-        
+
         for cine in root.findall("cine"):
             nombre_cine = cine.find('nombre').text
-            
+
             for sala in cine.findall('salas/sala'):
                 numero_sala = sala.find('numero').text
                 asientos = int(sala.find('asientos').text)
                 salas_disponibles[numero_sala] = asientos
-            
-        for sala, asientos in salas_disponibles.items():
-            print(f"Sala: {sala} | Asientos disponibles: {asientos}")
-        
+
         return salas_disponibles

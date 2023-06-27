@@ -18,11 +18,12 @@ from django.contrib import admin
 from django.urls import path
 from proyecto.views import default_view, login, cliente, administrador
 from proyecto.views import listaUser,crearUser,cargaXMLUsuarios,actualizarUser,eliminarUsuario,listaPeli,crearPeli,cargaXML, actualizarPeli, eliminarPeli,listaSalas
-from proyecto.views import cargaXMLSalas, crearSala, actualizarSalas, eliminarSalas ,cargalistaCliente
+from proyecto.views import cargaXMLSalas, crearSala, actualizarSalas, eliminarSalas ,cargalistaCliente, registraCliente,compraBoletoPost
 urlpatterns = [
     path('', default_view, name='default'),
     path('login/' ,login, name='login' ),
     path('cliente/', cliente, name ='cliente'),
+    path('registro/', registraCliente, name = 'registrar'),
     path('administrador/', administrador, name= 'administrador'),
 
     path('admin/', admin.site.urls),
@@ -34,7 +35,8 @@ urlpatterns = [
 
     path('cliente/cargalistaCliente',cargalistaCliente,name='cargalistaCliente'),
 
-    
+        path('compraBoleto/<str:nombre>', compraBoletoPost, name='compraBoleto'),
+
 
 
     path('peliculas/', listaPeli, name = 'listaPeli'),

@@ -7,4 +7,4 @@
         <correo>john.doe@example.com</correo>
         <contrasena>mipassword123</contrasena>
     </usuario>
-    <usuario><rol>administrador</rol><nombre>admin1232</nombre><apellido>admin</apellido><telefono>123</telefono><correo>admin</correo><contrasena>admin</contrasena></usuario><usuario><rol>cliente</rol><nombre>asd</nombre><apellido>asd</apellido><telefono>123</telefono><correo>asd</correo><contrasena>asd</contrasena></usuario></usuarios>
+    <usuario><rol>administrador</rol><nombre>admin1232</nombre><apellido>admin</apellido><telefono>123</telefono><correo>admin</correo><contrasena>admin</contrasena></usuario><usuario><rol>cliente</rol><nombre>asd</nombre><apellido>asd</apellido><telefono>123</telefono><correo>asd</correo><contrasena>asd</contrasena></usuario><usuario><rol>cliente</rol><nombre>victor</nombre><apellido>franco</apellido><telefono>123</telefono><correo>victor</correo><contrasena>franco</contrasena></usuario></usuarios>

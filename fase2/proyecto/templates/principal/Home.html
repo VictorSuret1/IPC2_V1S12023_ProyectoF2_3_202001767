@@ -17,10 +17,14 @@
             function redirectToLogin() {
                 window.location.href = "{% url 'login' %}";
             }
+
+            function redirectToRegister(){
+              window.location.href= "{% url 'registrar'%}";
+            }
             
         </script>
 
-        <button class="button type3">Registrar</button>
+        <button class="button type3" onclick="redirectToRegister()">Registrar</button>
       </div>
        
 

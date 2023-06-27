@@ -5,6 +5,9 @@
     background-color: grey;
     color: white;
 }
+h2{
+    color: white;
+}
 
 .headre .navLinks{
     list-style: none;

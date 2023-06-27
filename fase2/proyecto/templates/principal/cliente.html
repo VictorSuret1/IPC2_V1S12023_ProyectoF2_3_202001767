@@ -11,22 +11,23 @@
     <header class="header">
         <nav class="menu">
             <ul class="navLinks" style="display: flex;">
-                <li><a onclick="mostrarVentana()">VER </a></li>
-                <li id="opcionGeneral" style="display: none;"><a onclick="mostrarOpcionGeneral()">Ver Listado</a></li>
+                <li>
+                    <select id="ver" onchange="mostrarVentana()">
+                        <option value="general">General</option>
+                        <option value="categoria">Categoría</option>
+                    </select>
+                </li>
                 <li><a href="#">Favoritos</a></li>
                 <li><a href="#">Historial</a></li>
             </ul>
         </nav>
     </header>
-    <div id="contenidoGeneral" style="display: none;">
-        <form id="myForm" method="POST" action="{% url 'cargalistaCliente' %}">
-            {% csrf_token %}
-            <button id="submitButton" type="submit">General</button>
-        </form>
-    </div>
 
     <div id="miVentana" class="ventana-emergente" style="display: none;">
-        
+        <form id="myForm" method="POST" action="{% url 'cargalistaCliente' %}">
+            {% csrf_token %}
+            <button id="submitButton" type="submit">Mostrar</button>
+        </form>
         <table >
             <thead >
                 <th></th>
@@ -39,46 +40,55 @@
                 <th>Precio</th>
                 <tbody>
                     {% for p in peli %}
-                    <tr data-id="{{ p.titulo }}">
+                    <tr>
                         <td><img src="{{ p.imagen }}" width="100"></td>
                         <td>{{ p.categoria }}</td>
                         <td>{{ p.titulo }}</td>
                         <td>{{ p.fecha }}</td>
                         <td>{{ p.hora }}</td>
                         <td>{{ p.precio }}</td>
-                        <td><a href="#" class="Estrella" ><span style="color: gold;">&#9733;</span></a></td>
+                        <td><a href="#" class="Estrella"><span style="color: gold;">&#9733;</span></a></td>
+                        <td><a href="{% url 'compraBoleto' p.titulo %}">Comprar</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
+                
             </thead>
         </table>
-
-        <button onclick="ocultarVentana()">Cerrar</button>
     
+    </div>
+
+    <div id="categoria" class="ventana-emergente" style="display: none;">
+        {% for p in peli %}
+        <td>{{ p.categoria }}</td>
+        {% endfor %}
+
     </div>
 
     <div id="Favoritos" class="Favoritos"></div>
 
 
     <script>
-        function mostrarVentana() {
-          document.getElementById('miVentana').style.display = 'block';
-        }
-        function ocultarVentana() {
-          document.getElementById('miVentana').style.display = 'none';
-        }
         
-    
-    function mostrarVentana() {
-    document.getElementById('miVentana').style.display = 'block';
-    document.getElementById('opcionGeneral').style.display = 'block';
+        function mostrarVentana() {
+    var selectElement = document.getElementById("ver");
+    var divMiVentana = document.getElementById("miVentana");
+    var divCategoria = document.getElementById("categoria")
+
+    if (selectElement.value === "general") {
+        divCategoria.style.display="block";
+        divMiVentana.style.display = "";
+        
+    }
+     if(selectElement.value === "categoria"){
+        
+        divMiVentana.style.display = "block";
+        divCategoria.innerHTML = "";
+     }else {
+        divMiVentana.style.display = "none";
+    }
 }
 
-function mostrarOpcionGeneral() {
-    document.getElementById('contenidoGeneral').style.display = 'block';
-}
-       
-        
 </script>
 </body>
 </html>
