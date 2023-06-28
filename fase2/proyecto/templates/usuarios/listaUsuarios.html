@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
     <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/listas.css' %}" >
         <title>Gestion Usuarios</title>
     </head>
-    <body>
+    <body class="back">
         <form method="POST" action="{% url 'cargaXMLUsuarios' %}">
             {% csrf_token %}
-            <button type="submit">Cargar XML</button>
+            <button type="submit" class="button type3">Cargar XML</button>
         </form>
-        <a href="{% url 'crearUsuario' %}">Crear Usuario</a>
+        <a href="{% url 'crearUsuario' %}" class="button type3">Crear Usuario</a>
         <h1>Lista Usuarios</h1>
         <table>
             <thead>
@@ -30,8 +32,8 @@
                     <td>{{ user.correo }}</td>
                     <td>{{ user.contrasena }}</td>
                     <td>
-                        <a href="{% url 'actualizarUser' user.correo%}">Actualizar</a>
-                        <a href="{% url 'eliminarUsuario' user.correo%}">Eliminar</a>
+                        <a href="{% url 'actualizarUser' user.correo%}" class="button type3">Actualizar</a>
+                        <a href="{% url 'eliminarUsuario' user.correo%}" class="button type3">Eliminar</a>
 
                     </td>
                 </tr>

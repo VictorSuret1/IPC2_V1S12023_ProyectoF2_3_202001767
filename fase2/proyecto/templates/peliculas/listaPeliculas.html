@@ -2,14 +2,15 @@
 <html >
     <head>
         {% load static %}
-        <link rel="stylesheet" href="{% static 'css/listaPelis.css' %}" >
+        <link rel="stylesheet" href="{% static 'css/listas.css' %}" >
         <title class="Titulo">Gestion Peliculas</title>
+        
         
     </head>
     <body class="back">
         <form method="POST" action="{% url 'cargaXML' %}">
             {% csrf_token %}
-            
+            <button type="submit" class="button type3">Cargar XML</button>
         </form>
         <a href="{% url 'crearPelicula' %}" class="button type3">Crear Pelicula</a>
         

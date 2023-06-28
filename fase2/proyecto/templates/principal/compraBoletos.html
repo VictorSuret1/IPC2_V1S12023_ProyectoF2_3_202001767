@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
+  {% load static %}
+        <link rel="stylesheet" href="{% static 'css/compraBoleto.css' %}" >
 </head>
-<body>
+<body class="back">
   <div>
     <form method="post">
       {% csrf_token %}
-      <label for="numBoletos">numBoletos:</label>
+      <label for="numBoletos">Numero de Boletos</label>
       <input type="number" name="numBoletos" required><br><br>
       
-      <label for="salaElegida">Sala:</label>
-      <select name="salaElegida" required>
+      <label for="salaElegida">Sala</label>
+      <select name="salaElegida" required class="button type3">
         {% for sala, asientos in salas_disponibles.items %}
           <option value="{{ sala }}">Sala {{ sala }} (Asientos disponibles: {{ asientos }})</option>
         {% endfor %}
       </select><br><br>
 
       <label for="formaPago">Forma de Pago</label>
-      <select id="formaPago" name="formaPago" required onchange="mostrarOpcionesPago()">
+      <select id="formaPago" name="formaPago" required onchange="mostrarOpcionesPago()" class="button type3">
         <option value="tarjetaCredito">Tarjeta de Crédito</option>
         <option value="tarjetaDebito">Tarjeta de Débito</option>
         <option value="efectivo">Efectivo</option>
@@ -26,12 +28,12 @@
       <div id="opcionesPago"></div>
 
       <label for="nit">nit:</label>
-      <input type="number" name="nit" required><br><br>
+      <input type="text" name="nit" required><br><br>
 
       <label for="direccion">direccion:</label>
-      <input type="text" name="direccion" required><br><br>
+      <input type="text" name="direccion" ><br><br>
       
-      <button type="submit">Login</button>
+      <button type="submit" class="button type3">Comprar</button>
     </form>
   </div>
 
@@ -48,8 +50,8 @@
           <label for="titular">Titular:</label>
           <input type="text" name="titular" required><br><br>
 
-          <label for="fechaExpiracion">Fecha de Expiración:</label>
-          <input type="text" name="fechaExpiracion" required><br><br>
+          <label for="fecha">Fecha de Expiración:</label>
+          <input type="date" name="fecha" required><br><br>
         `;
       } else {
         opcionesPagoDiv.innerHTML = "";

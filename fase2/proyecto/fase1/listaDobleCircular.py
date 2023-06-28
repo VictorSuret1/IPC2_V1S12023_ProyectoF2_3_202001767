@@ -286,7 +286,7 @@ class listaDobleCircular:
         
         return self.lista
 
-    def comprarBoletos(self, name,numBoletos,salaElegida,nit,direccion):
+    def comprarBoletos(self, name,imagen,numBoletos,salaElegida,nit,direccion,tipoPago):
 
         peliculas = self.buscar_pelicula_por_titulo(name)
 
@@ -316,6 +316,15 @@ class listaDobleCircular:
                 print("No hay suficientes asientos en la sala seleccionada.")
                 break
 
+            tipoPago =''
+            if tipoPago == 'efectivo':
+                tipoPago = 'efectivo'
+            elif tipoPago =='debito':
+                tipoPago = 'debito'
+            else:
+                tipoPago = 'credito'
+            
+
 
             monto_total = numBoletos * int(pelicula.precio)
 
@@ -330,19 +339,22 @@ class listaDobleCircular:
 
             # Crear un diccionario con los detalles de la compra
             detalleDeCompra = {
+                "Imagen":pelicula.imagen,
                 "Pelicula": pelicula.titulo,
                 "Fecha": pelicula.fecha,
                 "Hora": pelicula.hora,
-                "Num. boletos": numBoletos,
-                "Num. asiento": salaElegida,
-                "Monto pago": monto_total,
+                "NumBoletos": numBoletos,
+                "NumAsiento": salaElegida,
+                "tipoPago":tipoPago,
+                "MontoPago": monto_total,
                 "NIT": nit,
                 "Dirección": direccion
             }
 
             # Agregar el detalle de la compra al historial
             self.historial.append(detalleDeCompra)
-
+            for x in self.historial:
+                print(x)
             print("Boleto comprado exitosamente.")
             break
     

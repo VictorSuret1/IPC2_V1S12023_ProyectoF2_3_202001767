@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/actualizar.css' %}" >
         <title>Actualizar Usuario</title>
     </head>
-    <body>
+    <body class="back">
         <h1>Actualizar Usuario</h1>
 
         <form method="post">
@@ -21,7 +23,7 @@
             <label for="contrasena">Contrasena</label>
             <input type="text" name="contrasena" value="{{usuario.contrasena}}" required>
 
-            <button type="submit">Actualizar</button>
+            <button type="submit" class="button type3">Actualizar</button>
         </form>
     </body>
 </html>

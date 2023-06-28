@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/listas.css' %}" >
+    </head>
+    <body class="back">
+        <form method="POST" action="{% url 'cargaXMLTarjetas' %}">
+            {% csrf_token %}
+            <button type="submit" class="button type3">Cargar XML</button>
+        </form>
+        <a href="{% url 'crearTarjeta' %}" class="button type3">Crear Tarjeta</a>
+        <h1>Lista Tarjeta</h1>
+        <table>
+            <thead>
+                <th>Tipo</th>
+                
+                <th>Numero</th>
+                <th>Titular</th>
+                <th>Fecha</th>
+            </thead>
+            <tbody>
+                {% for tar in tarjeta%}
+                <tr>
+                    <td>{{ tar.tipo }}</td>
+                    <td>{{ tar.numero }}</td>
+                    <td>{{ tar.titular }}</td>
+                    <td>{{ tar.fecha }}</td>
+                    <td>
+                        <a href="{% url 'actualizarTarjeta' tar.numero %}"  class="button type3">Actualizar</a>
+                        <a href="{% url 'eliminarTarjeta' tar.numero %}" class="button type3">Eliminar</a>
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>

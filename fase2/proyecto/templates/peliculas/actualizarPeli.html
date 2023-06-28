@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/actualizar.css' %}" >
         <title>Actualizar pelicula</title>
     </head>
-    <body>
+    <body class="back">
         <h1>Actualizar pelicula</h1>
 
-        <form method="post">
+        <form method="post" >
             {% csrf_token %}
             <label for="categoria">Categoría</label>
             <input type="text" name="categoria" value="{{ peli.categoria }}" required>
@@ -25,7 +27,7 @@
             <label for="precio">Precio</label>
             <input type="number" name="precio" value="{{ peli.precio }}" required>
 
-            <button type="submit">Actualizar</button>
+            <button type="submit" class="button type3">Actualizar</button>
         </form>
     </body>
 </html>

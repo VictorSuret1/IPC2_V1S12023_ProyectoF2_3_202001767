@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html class="all">
 <head>
-    <h2>Bienvenido </h2>
+    <h1>Bienvenido </h1>
     {% load static %}
-        <link rel="stylesheet" href="{% static 'css/PrincipalCliente.css' %}" >
+        <link rel="stylesheet" href="{% static 'css/cliente.css' %}" >
 </head>
-<body>
-    
-    
+<body class="back">
     <header class="header">
         <nav class="menu">
             <ul class="navLinks" style="display: flex;">
                 <li>
-                    <select id="ver" onchange="mostrarVentana()">
-                        <option value="general">General</option>
-                        <option value="categoria">Categoría</option>
+                    <select id="ver" onchange="mostrarVentana()" class="button type3">
+                        <option value="general">Categoria</option>
+                        <option value="categoria">General</option>
                     </select>
                 </li>
-                <li><a href="#">Favoritos</a></li>
-                <li><a href="#">Historial</a></li>
+                <li><a href="#" class="button type3">Favoritos</a></li>
+                <li><a href="{% url 'historial' %}" class="button type3">Historial</a></li>
             </ul>
         </nav>
     </header>
@@ -26,12 +24,11 @@
     <div id="miVentana" class="ventana-emergente" style="display: none;">
         <form id="myForm" method="POST" action="{% url 'cargalistaCliente' %}">
             {% csrf_token %}
-            <button id="submitButton" type="submit">Mostrar</button>
+            <button id="submitButton" type="submit" class="button type3">Mostrar</button>
         </form>
         <table >
             <thead >
                 <th></th>
-                <th>Categoria</th>
                 <th>Titulo</th>
                 
                 <th>Fecha</th>
@@ -42,13 +39,12 @@
                     {% for p in peli %}
                     <tr>
                         <td><img src="{{ p.imagen }}" width="100"></td>
-                        <td>{{ p.categoria }}</td>
                         <td>{{ p.titulo }}</td>
                         <td>{{ p.fecha }}</td>
                         <td>{{ p.hora }}</td>
                         <td>{{ p.precio }}</td>
                         <td><a href="#" class="Estrella"><span style="color: gold;">&#9733;</span></a></td>
-                        <td><a href="{% url 'compraBoleto' p.titulo %}">Comprar</a></td>
+                        <td><a href="{% url 'compraBoleto' p.titulo %}" class="button type3">Comprar</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -77,7 +73,7 @@
 
     if (selectElement.value === "general") {
         divCategoria.style.display="block";
-        divMiVentana.style.display = "";
+        
         
     }
      if(selectElement.value === "categoria"){

@@ -1,9 +1,11 @@
 from django.shortcuts import render,redirect
 from proyecto.fase1.listaEnlazada import ListaEnlazada
 from proyecto.fase1.listaDobleCircular import  listaDobleCircular
+from proyecto.fase1.listaDobleTarjetas import listaDobleTarjeta
 from proyecto.fase1.cons import Peliculas, Usuario, Salas
 from proyecto.fase1.listaDoble import listaDoble
 import xml.etree.ElementTree as ET
+
 import json
 
 from django.shortcuts import render
@@ -17,6 +19,8 @@ global listaCir
 listaCir = listaDobleCircular()
 global listaDob
 listaDob = listaDoble()
+global listTar
+listTar = listaDobleTarjeta()
 global datos
 datos = 'datos.xml'
 global pelis
@@ -165,24 +169,26 @@ def cargarPeliculasDesdeXML():
 
 #carga tabla de administrador
 def listaPeli(request):
-    peliculas = cargarPeliculasDesdeXML()
+    peliculas = list(listaCir)
     return render(request, 'peliculas/listaPeliculas.html', {'peliculas': peliculas})
-
 
 def cargaXML(request):
     if request.method == 'POST':
         listaCir.CargarPelis(pelis)
+        return redirect('listaPeli')
     return render(request, 'peliculas/listaPeliculas.html', {'peliculas': listaCir})
 
 #carga Tabla de cliente
 def listaPeliCliente(request):
     peli = cargarPeliculasDesdeXML()
+    
     return render(request, 'principal/cliente.html', {'peliculas': peli})
 
 
 def cargalistaCliente(request):
     if request.method == 'POST':
         listaCir.CargarPelis(pelis)
+        
     return render(request ,'principal/cliente.html', {'peli': list(listaCir)})
 
 
@@ -190,11 +196,17 @@ def compraBoletoPost(request, nombre):
     listaCir.favs(nombre)
     if request.method == 'POST':
         numBoletos = request.POST.get('numBoletos')
+        imagen = request.POST.get('imagen')
         salaElegida = request.POST.get('salaElegida')
         nit = request.POST.get('nit')
         direccion = request.POST.get('direccion')
-        
-        listaCir.comprarBoletos(nombre, numBoletos, salaElegida, nit, direccion)
+        tipoPago = request.POST.get('formaPago')
+        numero = request.POST.get('numero')
+        titular = request.POST.get('titular')
+        fecha=request.POST.get('fecha')
+        listaCir.comprarBoletos(nombre,imagen, numBoletos, salaElegida, nit, direccion,tipoPago)
+        if tipoPago != "efectivo":
+            listTar.agregarTarjeta(tipoPago,numero,titular,fecha)
         salas_disponibles = listaCir.mostrarSalas()
         return render(request, 'principal/compraBoletos.html', {'boletos': listaCir, 'salas_disponibles': salas_disponibles})
     else:
@@ -283,3 +295,54 @@ def eliminarSalas(request, numero):
     listaDob.eliminarSalas(numero)
     return redirect('listaSalas')
     
+
+
+def listaTarjeta(request):
+    tarjeta = list(listTar)
+    return render(request, 'tarjetas/listaTarjetas.html', {'tarjeta': tarjeta})
+
+def cargaXMLTarjetas(request):
+    if request.method == 'POST':
+        listTar.cargarTarjetas()
+        return redirect('listaTarjeta')
+    return render(request, 'tarjetas/listaTarjetas.html', {'tarjeta': listTar})
+
+def listaTarjeta(request):
+    tarjeta = list(listTar)
+    return render(request, 'tarjetas/listaTarjetas.html', {'tarjeta': tarjeta})
+
+def crearTarjeta(request):
+    if request.method == 'POST':
+        tipo = request.POST.get('tipo')
+        numero = request.POST.get('numero')
+        titular = request.POST.get('titular')
+        fecha = request.POST.get('fecha')
+        listTar.agregarTarjeta(tipo, numero, titular, fecha)
+        return redirect('listaTarjeta')
+    return render(request, 'tarjetas/crearTarjeta.html')
+
+def actualizarTarjeta(request, numero):
+    tarjeta = next((tarjeta for tarjeta in listTar if tarjeta.numero == numero), None)
+    if tarjeta:
+        if request.method == 'POST':
+            tarjeta.tipo = request.POST.get('tipp')
+            tarjeta.numero = request.POST.get('numero')
+            tarjeta.titular = request.POST.get('titular')
+            tarjeta.fecha = request.POST.get('fecha')
+            listTar.editarTarjeta(numero, tarjeta.tipo, tarjeta.numero , tarjeta.titular,tarjeta.fecha)
+            
+            return redirect('listaTarjeta')
+        return render(request, 'tarjetas/actualizarTarjeta.html', {'tarjeta': tarjeta})
+
+    return redirect('listaTarjeta')
+
+def eliminarTarjeta(request, numero):
+    listTar.eliminarTarjeta(numero)
+    return redirect('listaTarjeta')
+    
+
+def historial(request):  # Crea una instancia de la clase listaDobleCircular
+    historial = listaCir.historial  # Obtén la lista historial de la instancia
+    return render(request, 'principal/historial.html', {'historial': historial})
+        
+

@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
-    <head>Crear usuario</head>
-    <body>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/crear.css' %}" >
+    </head>
+    <body class="back">
         <h1>Crear Usuario</h1>
 
         <form method="post">
@@ -13,7 +16,7 @@
             <label for="asientos">Asientos</label>
             <input type="number" name ="asientos" required>
 
-            <button type="submit">Guardar</button>
+            <button type="submit" class="button type3">Guardar</button>
         </form>
     </body>
 </html>
