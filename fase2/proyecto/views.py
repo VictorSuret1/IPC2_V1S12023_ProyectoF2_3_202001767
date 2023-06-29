@@ -2,19 +2,27 @@ from django.shortcuts import render,redirect
 from proyecto.fase1.listaEnlazada import ListaEnlazada
 from proyecto.fase1.listaDobleCircular import  listaDobleCircular
 from proyecto.fase1.listaDobleTarjetas import listaDobleTarjeta
-from proyecto.fase1.cons import Peliculas, Usuario, Salas
+from proyecto.fase1.cons import Peliculas, Usuario, Salas,Tarjetas
 from proyecto.fase1.listaDoble import listaDoble
 import xml.etree.ElementTree as ET
-
+import requests
 import json
 
 from django.shortcuts import render
 
+rol = 'administrador'
+nombre= 'admin'
+apellido = 'admin'
+telefono = 123123
+correo = 'admin'
+contrasena = 'admin'
 
 
 # Create your views here.
 global lista
 lista = ListaEnlazada()
+objeto = Usuario(rol,nombre,apellido,telefono,correo,contrasena)
+lista.add(objeto)
 global listaCir
 listaCir = listaDobleCircular()
 global listaDob
@@ -44,12 +52,8 @@ def administrador(request):
     return render(request, 'principal/admin.html')
 
 
-def favoritas():
-    for x in favs:
-        print(x)
 
 def login(request):
-    admin()
     if request.method == 'POST':
         correo = request.POST.get('correo')
         contrasena = request.POST.get('contrasena')
@@ -65,7 +69,23 @@ def login(request):
     
 def cargaXMLUsuarios(request):
     if request.method == 'POST':
-        lista.CargarXML(1,datos)
+        lista.CargarXML(1)
+
+        response = requests.get('http://localhost:5007/getUsuarios')
+        usuariosAPI = response.json()
+        print(usuariosAPI)
+
+        for usuario in usuariosAPI["usuario"]:
+            rol = usuario["rol"]
+            nombre = usuario["nombre"]
+            apellido = usuario["apellido"]
+            telefono = usuario["telefono"]
+            correo = usuario["correo"]
+            contrasena = usuario["contrasena"]
+            objeto = Usuario(rol, nombre, apellido, telefono, correo, contrasena)
+            lista.add(objeto)
+
+
         return redirect('listaUser')
     return render(request, 'usuarios/listaUsuarios.html', {'usuario': lista})
 
@@ -73,15 +93,7 @@ def listaUser(request):
     usuario = list(lista)
     return render(request, 'usuarios/listaUsuarios.html', {'usuario': usuario})
 
-def admin():
-    rol = 'administrador'
-    nombre= 'admin'
-    apellido = 'admin'
-    telefono = 123123
-    correo = 'admin'
-    contrasena = 'admin'
-    objeto = Usuario(rol,nombre,apellido,telefono,correo,contrasena)
-    lista.add(objeto)
+
     
 def crearUser(request):
     if request.method == 'POST':
@@ -175,6 +187,26 @@ def listaPeli(request):
 def cargaXML(request):
     if request.method == 'POST':
         listaCir.CargarPelis(pelis)
+
+        response = requests.get('http://localhost:5007/getPeliculas')
+        peliculas = response.json()
+
+        for categoria in peliculas['categoria']:
+             nombre_categoria = categoria['nombre']
+             print("Categoría", nombre_categoria)
+
+             peliculas = categoria['peliculas']['pelicula']
+             for pelicula in peliculas:
+                titulo = pelicula['titulo']
+                director=pelicula['director']
+                anio=pelicula['anio']
+                fecha=pelicula['fecha']
+                hora=pelicula['hora']
+                imagen= pelicula['imagen']
+                precio =pelicula['precio']
+                objeto = Peliculas(nombre_categoria,titulo,director,anio,fecha,hora,imagen,precio)
+                listaCir.add(objeto)
+        
         return redirect('listaPeli')
     return render(request, 'peliculas/listaPeliculas.html', {'peliculas': listaCir})
 
@@ -212,9 +244,6 @@ def compraBoletoPost(request, nombre):
     else:
         salas_disponibles = listaCir.mostrarSalas()
         return render(request, 'principal/compraBoletos.html', {'boletos': listaCir, 'salas_disponibles': salas_disponibles})
-
-
-
 
 
 def crearPeli(request):
@@ -260,6 +289,16 @@ def eliminarPeli(request, titulo):
 def cargaXMLSalas(request):
     if request.method == 'POST':
         listaDob.cargaSalas(salas)
+
+        response = requests.get('http://localhost:5007/getSalas')
+        salasAPI = response.json()
+
+        for sala in salasAPI["cine"]["salas"]["sala"]:
+            numero = sala["numero"]
+            asientos = sala["asientos"]
+            objeto = Salas(salasAPI["cine"]["nombre"], numero, asientos)
+            listaDob.add(objeto)
+            print(objeto.numero)
         return redirect('listaSalas')
     return render(request, 'salas/listaSalas.html', {'sala': listaDob})
 
@@ -304,6 +343,20 @@ def listaTarjeta(request):
 def cargaXMLTarjetas(request):
     if request.method == 'POST':
         listTar.cargarTarjetas()
+        response = requests.get('http://localhost:5007/getTarjetas')
+        salasAPI = response.json()
+
+        for sala in salasAPI["tarjeta"]:
+            tipo = sala["tipo"]
+            numero = sala["numero"]
+            titular = sala["titular"]
+            fecha = sala["fecha_expiracion"]
+            objeto = Tarjetas(tipo,numero,titular,fecha)
+            listTar.add(objeto)
+            
+
+
+
         return redirect('listaTarjeta')
     return render(request, 'tarjetas/listaTarjetas.html', {'tarjeta': listTar})
 

@@ -12,7 +12,10 @@
                 <th>Titulo</th>
                 <th>Fecha</th>
                 <th>Hora</th>
+                <th>Numero de Boletos</th>
                 <th>Precio</th>
+                <th>NIT</th>
+                <th>Direccion</th>
                 
             </thead>
             <tbody>
@@ -22,11 +25,14 @@
                     <td>{{ h.Pelicula }}</td>
                     <td>{{ h.Fecha }}</td>
                     <td>{{ h.Hora }}</td>
+                    <td>{{ h.NumBoletos }}</td>
                     <td>{{ h.MontoPago }}</td>
+                    <td>{{ h.NIT }}</td>
+                    <td>{{ h.Dirección }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <a href="#" class="button type3">Regresar</a>
+        <a href="{% url 'cargalistaCliente'%}" class="button type3">Regresar</a>
     </body>
 </html>

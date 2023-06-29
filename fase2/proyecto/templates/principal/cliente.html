@@ -55,10 +55,15 @@
     </div>
 
     <div id="categoria" class="ventana-emergente" style="display: none;">
-        {% for p in peli %}
-        <td>{{ p.categoria }}</td>
-        {% endfor %}
-
+        {% csrf_token %}
+        <select id="porCate" name="categoria" class="button type3" onchange="mostrarPorCategoria()" >
+            {% for p in peli %}
+            <option value="accion">{{ p.categoria }}</option>
+            {% endfor %}
+            <div id="tablaCat"></div>
+        </select>
+        
+        
     </div>
 
     <div id="Favoritos" class="Favoritos"></div>
@@ -69,21 +74,62 @@
         function mostrarVentana() {
     var selectElement = document.getElementById("ver");
     var divMiVentana = document.getElementById("miVentana");
-    var divCategoria = document.getElementById("categoria")
-
-    if (selectElement.value === "general") {
-        divCategoria.style.display="block";
-        
-        
-    }
+    var divCategoria = document.getElementById("categoria");
      if(selectElement.value === "categoria"){
         
         divMiVentana.style.display = "block";
-        divCategoria.innerHTML = "";
-     }else {
+
+     }else  {
         divMiVentana.style.display = "none";
     }
+
+    if(selectElement.value === "general"){
+        
+        divCategoria.style.display = "block";
+
+     }else  {
+        divCategoria.style.display = "none";
+    }
+
 }
+function mostrarPorCategoria() {
+      var formaPago = document.getElementById("porCate").value;
+      var opcionesPagoDiv = document.getElementById("tablaCat");
+
+      if (formaPago === "accion" ) {
+        opcionesPagoDiv.innerHTML = `
+        <table >
+            <thead >
+                <th></th>
+                <th>Titulo</th>
+                
+                <th>Fecha</th>
+                <th>Hora</th>
+                
+                <th>Precio</th>
+                <tbody>
+                    {% for p in peli %}
+                    <tr>
+                        <td><img src="{{ p.imagen }}" width="100"></td>
+                        <td>{{ p.titulo }}</td>
+                        <td>{{ p.fecha }}</td>
+                        <td>{{ p.hora }}</td>
+                        <td>{{ p.precio }}</td>
+                        <td><a href="#" class="Estrella"><span style="color: gold;">&#9733;</span></a></td>
+                        <td><a href="{% url 'compraBoleto' p.titulo %}" class="button type3">Comprar</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                
+            </thead>
+        </table>
+        `;
+      } else {
+        opcionesPagoDiv.innerHTML = "";
+      }
+    }
+
+
 
 </script>
 </body>

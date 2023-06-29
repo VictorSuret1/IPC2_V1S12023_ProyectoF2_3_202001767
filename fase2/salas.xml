@@ -16,10 +16,4 @@
         </sala>
         </salas>
     </cine>
-    
-    <cine>
-        <nombre>Cine2</nombre>
-    <salas>
-        </salas>
-    </cine>
-<cine><nombre>Cine3</nombre><salas /></cine></cines>
+</cines>

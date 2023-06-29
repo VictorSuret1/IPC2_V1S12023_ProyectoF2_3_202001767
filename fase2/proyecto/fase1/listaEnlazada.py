@@ -3,11 +3,12 @@ import xml.etree.ElementTree as ET
 from proyecto.fase1.cons import Usuario
 
 class ListaEnlazada:  
+
     def __init__(self):
         self.cabeza = None
 
     def add(self, dato):
-        
+       
         nuevo = Nodo(dato)
 
         if self.cabeza is None:
@@ -17,6 +18,8 @@ class ListaEnlazada:
             while actual.siguiente is not None:
                 actual = actual.siguiente
             actual.siguiente = nuevo
+
+        
 
     def delete(self, correo):
         actual = self.head
@@ -40,11 +43,15 @@ class ListaEnlazada:
             yield actual.dato
             actual = actual.siguiente
         
+  
+        
 
+        
     def __iter__(self):
         return iter(self.loop())  
-    def CargarXML(self, operacion,ruta):
-        tree = ET.parse(ruta)
+    
+    def CargarXML(self, operacion):
+        tree = ET.parse("datos.xml")
         root = tree.getroot()
 
         for indice, usuarios in enumerate(root.findall('usuario')):

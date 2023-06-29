@@ -32,7 +32,9 @@
                     <td>{{ user.correo }}</td>
                     <td>{{ user.contrasena }}</td>
                     <td>
-                        <a href="{% url 'actualizarUser' user.correo%}" class="button type3">Actualizar</a>
+                        <a href="{% url 'actualizarUser' user.correo %}" class="button type3">Actualizar</a>
+
+                        
                         <a href="{% url 'eliminarUsuario' user.correo%}" class="button type3">Eliminar</a>
 
                     </td>
