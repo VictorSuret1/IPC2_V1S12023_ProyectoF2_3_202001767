@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/actualizar.css' %}" >
+        <title>Actualizar Usuario</title>
+    </head>
+    <body class="back">
+        <h1>Actualizar Usuario</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <label for="tipo">Tipo</label>
+            <input type="text" name="tipo" value="{{tarjeta.tipo}}" required>
+            <label for="numero">Numero</label>
+            <input type="number" name="numero" value="{{tarjeta.numero}}" required>
+            <label for="titular">Titular</label>
+            <input type="text" name="titular" value="{{tarjeta.titular}}" required>
+            <label for="fecha">Fecha</label>
+            <input type="date" name="fecha" value="{{tarjeta.fecha}}" required>
+
+            <button type="submit" class="button type3">Actualizar</button>
+        </form>
+    </body>
+</html>

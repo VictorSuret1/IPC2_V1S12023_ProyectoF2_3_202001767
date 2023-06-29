@@ -3,11 +3,12 @@ import xml.etree.ElementTree as ET
 from proyecto.fase1.cons import Usuario
 
 class ListaEnlazada:  
+
     def __init__(self):
         self.cabeza = None
 
     def add(self, dato):
-        
+       
         nuevo = Nodo(dato)
 
         if self.cabeza is None:
@@ -18,9 +19,39 @@ class ListaEnlazada:
                 actual = actual.siguiente
             actual.siguiente = nuevo
 
+        
 
-    def CargarXML(self, operacion,ruta):
-        tree = ET.parse(ruta)
+    def delete(self, correo):
+        actual = self.head
+        anterior = None
+
+        while actual is not None:
+            if actual.dato.correo == correo:
+                if anterior is None:
+                    self.head = actual.siguiente
+                    return 1
+                else:
+                    anterior.siguiente = actual.siguiente
+                    return 1
+            anterior = actual
+            actual = actual.siguiente
+
+
+    def loop(self):
+        actual = self.cabeza
+        while actual:
+            yield actual.dato
+            actual = actual.siguiente
+        
+  
+        
+
+        
+    def __iter__(self):
+        return iter(self.loop())  
+    
+    def CargarXML(self, operacion):
+        tree = ET.parse("datos.xml")
         root = tree.getroot()
 
         for indice, usuarios in enumerate(root.findall('usuario')):
@@ -52,47 +83,36 @@ class ListaEnlazada:
             actual = actual.siguiente            
             
 
-    def EditarUsuario(self, correo):
+    def EditarUsuario(self, correo, nuevoRol, nuevoNombre, nuevoApellido, nuevoTelefono, nuevoCorreo, nuevoContra):
         actual = self.cabeza
         while actual is not None:
             if actual.dato.correo == correo:
-                print("Enter para dejar dato actual")
-                nuevoRol = input(f"Ingresar el nuevo rol: actual: {actual.dato.rol} nuevo: ") or actual.dato.rol
-                nuevoNombre = input(f"Ingresar el nuevo nombre: {actual.dato.nombre} nuevo: ") or actual.dato.nombre
-                nuevoApellido = input(f"Ingresar el nuevo apelldio: {actual.dato.apellido} nuevo: ") or actual.dato.apellido
-                nuevoTelefono = input(f"Ingresar el nuevo telefono: {actual.dato.telefono} nuevo: ") or actual.dato.telefono
-                nuevoCorreo = input(f"Ingresar el nuevo correo: {actual.dato.correo} nuevo: ") or actual.dato.correo
-                nuevoContra = input(f"Ingresar la nueva contra: {actual.dato.contrasena} nuevo: ") or actual.dato.contrasena
+                actual.dato.rol = nuevoRol
+                actual.dato.nombre = nuevoNombre
+                actual.dato.apellido = nuevoApellido
+                actual.dato.telefono = nuevoTelefono
+                actual.dato.correo = nuevoCorreo
+                actual.dato.contrasena = nuevoContra
+
+                tree = ET.parse("datos.xml")
+                root = tree.getroot()
+
+                for usuario in root.findall('usuario'):
+                    correoActual = usuario.find('correo').text
+                    if correoActual == correo:
+                        usuario.find('rol').text = nuevoRol
+                        usuario.find('nombre').text = nuevoNombre
+                        usuario.find('apellido').text = nuevoApellido
+                        usuario.find('telefono').text = nuevoTelefono
+                        usuario.find('correo').text = nuevoCorreo
+                        usuario.find('contrasena').text = nuevoContra
+                        tree.write("datos.xml")
+                        print("Usuario editado exitosamente.")
                 break
+
             actual = actual.siguiente
 
-
-        if actual is not None:
-            actual.dato.rol = nuevoRol
-            actual.dato.nombre = nuevoNombre
-            actual.dato.apellido = nuevoApellido
-            actual.dato.telefono = nuevoTelefono
-            actual.dato.correo = nuevoCorreo
-            actual.dato.contrasena = nuevoContra
-
-
-            tree = ET.parse("datos.xml")
-            root = tree.getroot()
-
-            for usuario in root.findall('usuario'):
-                correoActual = usuario.find('correo').text
-                if correoActual == correo:
-                    usuario.find('rol').text = nuevoRol
-                    usuario.find('nombre').text = nuevoNombre
-                    usuario.find('apellido').text = nuevoApellido
-                    usuario.find('telefono').text = nuevoTelefono
-                    usuario.find('correo').text = nuevoCorreo
-                    usuario.find('contrasena').text = nuevoContra
-                    tree.write("datos.xml")
-                    print("Usuario editado exitosamente.")
-                break
-            
-        else:
+        if actual is None:
             print("Usuario no encontrado.")
             
     def EliminarUsuario(self, correo):
@@ -158,15 +178,7 @@ class ListaEnlazada:
             actual = actual.siguiente
             actual.dato.imprimir()
 
-    def loop(self):
-        actual = self.cabeza
-        while actual:
-            yield actual.dato
-            actual = actual.siguiente
-        
-
-    def __iter__(self):
-        return iter(self.loop())    
+  
 
     def login(self, correo, contrasena):
         actual = self.cabeza
@@ -175,10 +187,8 @@ class ListaEnlazada:
         while actual is not None:
             if actual.dato.correo == correo and actual.dato.contrasena == contrasena:
                 if actual.dato.rol == "cliente":
-                    print("Inicio de sesión exitoso como cliente.")
                     rolUser = "cliente"
                 elif actual.dato.rol == "administrador":
-                    print("Inicio de sesión exitoso como administrador.")
                     rolUser = "administrador"
                 else:
                     print("No se pudo determinar el rol para el usuario.")

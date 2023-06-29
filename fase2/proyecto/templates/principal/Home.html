@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/carrusel.css' %}" >
+
+        
+        <title class="Titulo" >Gestion Peliculas</title>
+    </head>
+    <body class="back">
+      <div class="botones">
+        <button onclick="redirectToLogin()" class="button type3">Iniciar Sesion</button>
+        <script>
+            function redirectToLogin() {
+                window.location.href = "{% url 'login' %}";
+            }
+
+            function redirectToRegister(){
+              window.location.href= "{% url 'registrar'%}";
+            }
+            
+        </script>
+
+        <button class="button type3" onclick="redirectToRegister()">Registrar</button>
+      </div>
+       
+
+        <div class="slider-frame" >
+          <ul>
+              
+              {% for pelicula in peli %}
+              <li class="slide">
+                <h2 class="slide-title">{{ pelicula.titulo }}</h2>
+                
+                <img src="{{ pelicula.imagen }}"  height="400">
+                <p class="slide-text">{{ pelicula.fecha }} </p>
+                <p class="slide-text">{{ pelicula.hora }}</p>
+              </li>
+              {% endfor %}
+
+          </ul>
+      </div>
+
+        
+          
+       
+
+    </body>
+</html>

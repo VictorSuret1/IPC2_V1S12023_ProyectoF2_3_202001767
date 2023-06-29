@@ -1,0 +1,103 @@
+
+.header{
+    background-color: transparent;
+    border-color: white;
+    border-width: 10%;
+}
+@import url("https://fonts.googleapis.com/css?family=Raleway");
+* {
+  box-sizing: border-box;
+}
+
+.back{
+    background: linear-gradient(to bottom, #1e175a, #0c0088, #1e1e2b);
+    font-family: 'Jost', sans-serif;
+    
+  }
+h1{
+    color: white;
+}
+
+  table {
+      width: 100%;
+      background-color: grey;
+      padding: 15px;
+      color: black;
+    }
+    
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    /* Estilos para el enlace */
+    a {
+      color: blue;
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Estilos para la imagen */
+    img {
+      max-width: 100px;
+      height: auto;
+    }
+
+
+
+    .button {
+        position: relative;
+        padding: relative;
+        border: none;
+        background-color: white;
+        cursor: pointer;
+        outline: none;
+        font-size: 25px;
+        margin: auto 1em;
+      }
+      
+      
+      
+      .button.type3 {
+          color: black;
+          align-items: left;
+        }
+        .button.type3.type3::after, .button.type3.type3::before {
+          content: "";
+          display: block;
+          position: absolute;
+          width: 20%;
+          height: 20%;
+          border: 2px solid;
+          transition: all 0.6s ease;
+          border-radius: 5px;
+        }
+        .button.type3.type3::after {
+          bottom: 0;
+          right: 0;
+          border-top-color: transparent;
+          border-left-color: transparent;
+          border-bottom-color: #435a6b;
+          border-right-color: #435a6b;
+        }
+        .button.type3.type3::before {
+          top: 0;
+          left: 0;
+          border-bottom-color: transparent;
+          border-right-color: transparent;
+          border-top-color: #435a6b;
+          border-left-color: #435a6b;
+        }
+        .button.type3.type3:hover:after, .button.type3.type3:hover:before {
+          border-bottom-color: #435a6b;
+          border-right-color: #435a6b;
+          border-top-color: #435a6b;
+          border-left-color: #435a6b;
+          width: 100%;
+          height: 100%;
+        }
+      

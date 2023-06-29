@@ -9,10 +9,17 @@
     </usuario>
     <usuario>
         <rol>administrador</rol>
-        <nombre>Jane</nombre>
-        <apellido>Smith</apellido>
-        <telefono>987654321</telefono>
-        <correo>jane.smith@example.com</correo>
-        <contrasena>password456</contrasena>
+        <nombre>admin1232</nombre>
+        <apellido>admin</apellido>
+        <telefono>123</telefono>
+        <correo>admin</correo>
+        <contrasena>admin</contrasena>
+    </usuario><usuario>
+        <rol>cliente</rol>
+        <nombre>victor</nombre>
+        <apellido>franco</apellido>
+        <telefono>123</telefono>
+        <correo>victor</correo>
+        <contrasena>franco</contrasena>
     </usuario>
 </usuarios>

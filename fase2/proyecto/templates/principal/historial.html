@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html >
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/listas.css' %}">
+    </head>
+    <body class="back">
+        <h1>Historial de Compra</h1>
+        <table >
+            <thead >
+                <th></th>
+                <th>Titulo</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Numero de Boletos</th>
+                <th>Precio</th>
+                <th>NIT</th>
+                <th>Direccion</th>
+                
+            </thead>
+            <tbody>
+                {% for h in historial%}
+                <tr>
+                    <td><img src="{{ h.Imagen }} " width="100"></td>
+                    <td>{{ h.Pelicula }}</td>
+                    <td>{{ h.Fecha }}</td>
+                    <td>{{ h.Hora }}</td>
+                    <td>{{ h.NumBoletos }}</td>
+                    <td>{{ h.MontoPago }}</td>
+                    <td>{{ h.NIT }}</td>
+                    <td>{{ h.Dirección }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'cargalistaCliente'%}" class="button type3">Regresar</a>
+    </body>
+</html>

@@ -1,4 +1,7 @@
+import itertools
 import xml.etree.ElementTree as ET
+
+from django.http import HttpResponse
 from proyecto.fase1.nodos import NodoCircular
 from proyecto.fase1.cons import Peliculas
 
@@ -25,6 +28,35 @@ class listaDobleCircular:
             self.cabeza.anterior = nuevo_nodo
             ultimo.siguiente = nuevo_nodo
 
+        self.lista.append(nuevo_nodo)  # Agregar el nuevo nodo a la lista
+
+   
+
+
+    def remove(self, titulo):
+        nodo_actual = self.cabeza
+
+        if nodo_actual is not None:
+            while True:
+                if nodo_actual.dato.titulo == titulo:
+                    siguiente_nodo = nodo_actual.siguiente
+                    anterior_nodo = nodo_actual.anterior
+
+                    siguiente_nodo.anterior = anterior_nodo
+                    anterior_nodo.siguiente = siguiente_nodo
+
+                    if nodo_actual == self.cabeza:
+                        self.cabeza = siguiente_nodo
+
+                    del nodo_actual
+                    break
+
+                nodo_actual = nodo_actual.siguiente
+
+                if nodo_actual == self.cabeza:
+                    break
+
+
     def CargarPelis(self,ruta):
         tree = ET.parse(ruta)
         root = tree.getroot()
@@ -44,6 +76,14 @@ class listaDobleCircular:
                 peli = Peliculas(nombre,titulo,director,anio,fecha,hora,imagen,precio)
                 self.add(peli)
 
+    def buscar_pelicula_por_titulo(self, titulo):
+        peliculas_encontradas = []
+        for pelicula in self.loop():
+            if pelicula.titulo == titulo:
+                peliculas_encontradas.append(pelicula)
+        return peliculas_encontradas
+
+
     def loop(self):
         if self.cabeza is not None:
             actual = self.cabeza
@@ -56,34 +96,14 @@ class listaDobleCircular:
     def __iter__(self):
      return iter(self.loop())
 
-    def MostrarLista(self):
-        actual = self.cabeza
-
-        if actual is None:
-            print("La lista está vacía.")
-            return
-
-        print("Datos en la lista:")
-        while True:
-            print(f"Titulo: {actual.dato.titulo} | Director: {actual.dato.director} | Anio: {actual.dato.anio} | Fecha: {actual.dato.fecha} | Hora: {actual.dato.hora}")
-
-            actual = actual.siguiente
-            if actual == self.cabeza:
-                # Se ha recorrido toda la lista
-                break
-
-
+    def get_first_10_movies(self):
+        return list(itertools.islice(self.loop(), 10))
     
 
-    def registraPeli(self):
-        categoria = input("Ingresa la Categoria : ")
-        titulo = input("Ingresa el Titulo : ")
-        director = input("Ingresa el director : ")
-        anio = input("Ingresa el anio : ")
-        fecha = input("Ingresa el fecha : ")
-        hora = input("Ingresa el hora : ")
+    def registraPeli(self,categoria, titulo, director, anio, fecha, hora,imagen,precio):
+        
 
-        peli = Peliculas(categoria, titulo, director, anio, fecha, hora)
+        peli = Peliculas(categoria, titulo, director, anio, fecha, hora,imagen,precio)
         self.add(peli)
         # Agregar los datos al archivo XML
         tree = ET.parse('peliculas.xml')
@@ -102,6 +122,8 @@ class listaDobleCircular:
                 ET.SubElement(nueva_pelicula, 'anio').text = anio
                 ET.SubElement(nueva_pelicula, 'fecha').text = fecha
                 ET.SubElement(nueva_pelicula, 'hora').text = hora
+                ET.SubElement(nueva_pelicula, 'imagen').text = imagen
+                ET.SubElement(nueva_pelicula, 'precio').text = precio
                 break
 
         # Si la categoría no existe, crear una nueva
@@ -115,11 +137,34 @@ class listaDobleCircular:
             ET.SubElement(nueva_pelicula, 'anio').text = anio
             ET.SubElement(nueva_pelicula, 'fecha').text = fecha
             ET.SubElement(nueva_pelicula, 'hora').text = hora
+            ET.SubElement(nueva_pelicula, 'imagen').text = imagen
+            ET.SubElement(nueva_pelicula, 'precio').text = precio
 
         # Guardar los cambios en el archivo XML
         tree.write('peliculas.xml')
 
-   
+    def editar(self, titulo, nueva_categoria, nuevo_titulo, nuevo_director, nuevo_anio, nueva_fecha, nueva_hora, nueva_imagen, nuevo_precio):
+        # Cargar el archivo XML
+        tree = ET.parse('peliculas.xml')
+        root = tree.getroot()
+
+        # Buscar la película con el título dado en el XML y actualizar sus datos
+        for categoria in root.findall("categoria"):
+            peliculas = categoria.find('peliculas')
+            for peli in peliculas.findall('pelicula'):
+                if peli.find('titulo').text == titulo:
+                    peli.find('titulo').text = nuevo_titulo
+                    peli.find('director').text = nuevo_director
+                    peli.find('anio').text = nuevo_anio
+                    peli.find('fecha').text = nueva_fecha
+                    peli.find('hora').text = nueva_hora
+                    peli.find('imagen').text = nueva_imagen
+                    peli.find('precio').text = nuevo_precio
+                    break
+
+        # Guardar los cambios en el archivo XML
+        tree.write('peliculas.xml')
+        
     def EditarPelicula(self, titulo):
         actual = self.cabeza
 
@@ -219,81 +264,6 @@ class listaDobleCircular:
 
         print("La película se eliminó correctamente de la lista y el archivo XML.")
 
-    def mostrarPorCategoria(self, categoria):
-        actual = self.cabeza
-
-        if actual is None:
-            print("La lista está vacía.")
-            return
-
-        while True:
-            if actual.dato.categoria == categoria:
-                print(f"Categoría: {actual.dato.categoria} Titulo: {actual.dato.titulo} Director: {actual.dato.director} Año: {actual.dato.anio} Fecha: {actual.dato.fecha} Hora: {actual.dato.hora}")
-                
-
-            actual = actual.siguiente
-
-            if actual == self.cabeza:
-                break
-
-    def mostrarGeneral(self):
-        actual = self.cabeza
-
-        if actual is None:
-            print("La lista está vacía.")
-            return
-
-        print("Datos en la lista:")
-        while True:
-            print(f"Titulo: {actual.dato.titulo} | Director: {actual.dato.director} | Anio: {actual.dato.anio} | Fecha: {actual.dato.fecha} | Hora: {actual.dato.hora}")
-
-            actual = actual.siguiente
-            if actual == self.cabeza:
-                # Se ha recorrido toda la lista
-                break
-    
-    def mostrarCategorias(self):
-        actual = self.cabeza
-
-        if actual is None:
-            print("La lista está vacía.")
-            return
-
-        categorias = set()
-
-        while True:
-            categorias.add(actual.dato.categoria)
-            actual = actual.siguiente
-
-            if actual == self.cabeza:
-                break
-
-        print("Categorías disponibles:")
-        i=0
-        for categoria in categorias:
-            print(categoria)
-            
-
-    def marcarComoFavorita(self, titulo):
-        actual = self.cabeza
-
-        if actual is None:
-            print("La lista está vacía.")
-            return
-
-        while True:
-            if actual.dato.titulo == titulo:
-                actual.dato.favorita = True
-                print(f"La película '{titulo}' ha sido marcada como favorita.")
-                return
-
-            actual = actual.siguiente
-
-            if actual == self.cabeza:
-                break
-
-        print(f"No se encontró la película '{titulo}' en la lista.")
-
 
     def favs(self,nombrePeli):
         actual = self.cabeza
@@ -315,18 +285,10 @@ class listaDobleCircular:
                 break
         
         return self.lista
-    
-    def mostraNuevo(self,nueva_lista):
-        if len(nueva_lista) > 0:
-            print("Datos de Peliculas Favoritas:")
-            for pelicula in nueva_lista:
-                print(f"Título: {pelicula.titulo} | Director: {pelicula.director} | Año: {pelicula.anio} | Fecha: {pelicula.fecha} | Hora: {pelicula.hora}")
-        else:
-            print("No hay datos de Peliculas Favoritas")
 
-    def comprarBoletos(self, nombrePeli):
+    def comprarBoletos(self, name,imagen,numBoletos,salaElegida,nit,direccion,tipoPago):
 
-        peliculas = self.favs(nombrePeli)
+        peliculas = self.buscar_pelicula_por_titulo(name)
 
         if not peliculas:
             print("No se encontró la película en la lista.")
@@ -334,13 +296,11 @@ class listaDobleCircular:
 
         pelicula = peliculas[0]
 
-        numBoletos = int(input("Ingrese el número de boletos que desea comprar: "))
 
         while True:
             print("Salas disponibles:")
             salas_disponibles = self.mostrarSalas()
 
-            salaElegida = input("Seleccione una sala: ")
 
             if salaElegida not in salas_disponibles:
                 print("La sala seleccionada no es válida.")
@@ -348,37 +308,53 @@ class listaDobleCircular:
 
             asientos_sala = salas_disponibles[salaElegida]
 
+            asientos_sala = int(asientos_sala)
+            print("Valor de asientos_sala:", asientos_sala)
+            numBoletos = int(numBoletos)
+
             if numBoletos > asientos_sala:
                 print("No hay suficientes asientos en la sala seleccionada.")
                 break
 
-            monto_total = numBoletos * 42
+            tipoPago =''
+            if tipoPago == 'efectivo':
+                tipoPago = 'efectivo'
+            elif tipoPago =='debito':
+                tipoPago = 'debito'
+            else:
+                tipoPago = 'credito'
+            
+
+
+            monto_total = numBoletos * int(pelicula.precio)
 
             print(f"Monto total: {monto_total}")
 
-            nit = input("Ingrese el NIT o ingrese 'CF' para terminar: ")
             if nit== "CF":
                 direccion = "CF"
             else:
-                direccion = input("Ingrese la dirección de facturación: ")
+                direccion = direccion
 
             
 
             # Crear un diccionario con los detalles de la compra
             detalleDeCompra = {
+                "Imagen":pelicula.imagen,
                 "Pelicula": pelicula.titulo,
                 "Fecha": pelicula.fecha,
                 "Hora": pelicula.hora,
-                "Num. boletos": numBoletos,
-                "Num. asiento": salaElegida,
-                "Monto pago": monto_total,
+                "NumBoletos": numBoletos,
+                "NumAsiento": salaElegida,
+                "tipoPago":tipoPago,
+                "MontoPago": monto_total,
                 "NIT": nit,
                 "Dirección": direccion
             }
 
             # Agregar el detalle de la compra al historial
             self.historial.append(detalleDeCompra)
-
+            for x in self.historial:
+                print(x)
             print("Boleto comprado exitosamente.")
             break
     
@@ -404,18 +380,15 @@ class listaDobleCircular:
     def mostrarSalas(self):
         tree = ET.parse('salas.xml')
         root = tree.getroot()
-        
+
         salas_disponibles = {}
-        
+
         for cine in root.findall("cine"):
             nombre_cine = cine.find('nombre').text
-            
+
             for sala in cine.findall('salas/sala'):
                 numero_sala = sala.find('numero').text
                 asientos = int(sala.find('asientos').text)
                 salas_disponibles[numero_sala] = asientos
-            
-        for sala, asientos in salas_disponibles.items():
-            print(f"Sala: {sala} | Asientos disponibles: {asientos}")
-        
+
         return salas_disponibles

@@ -16,15 +16,47 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from proyecto.views import listaUser,crearUser,actualizarUser,listaPeli,crearPeli,cargaXML
-
+from proyecto.views import default_view, login, cliente, administrador
+from proyecto.views import listaUser,crearUser,cargaXMLUsuarios,actualizarUser,eliminarUsuario,listaPeli,crearPeli,cargaXML, actualizarPeli, eliminarPeli,listaSalas
+from proyecto.views import cargaXMLSalas, crearSala, actualizarSalas, eliminarSalas ,cargalistaCliente, registraCliente,compraBoletoPost
+from proyecto.views import cargaXMLTarjetas,crearTarjeta,listaTarjeta,actualizarTarjeta,eliminarTarjeta,historial
 urlpatterns = [
+    path('', default_view, name='default'),
+    path('login/' ,login, name='login' ),
+    path('cliente/', cliente, name ='cliente'),
+    path('registro/', registraCliente, name = 'registrar'),
+    path('administrador/', administrador, name= 'administrador'),
+
     path('admin/', admin.site.urls),
     path('usuarios/', listaUser, name = 'listaUser'),
     path('usuarios/crear/', crearUser, name = 'crearUsuario'),
+    path('usuarios/carga-xml/',cargaXMLUsuarios, name = 'cargaXMLUsuarios' ),
     path('usuarios/actualizar/<str:correo>', actualizarUser, name='actualizarUser'),
+    path('usuarios/eliminarUsuario/<str:correo>', eliminarUsuario, name="eliminarUsuario"),
+
+    path('cliente/cargalistaCliente',cargalistaCliente,name='cargalistaCliente'),
+    path('cliente/Historial',historial,name='historial'),
+
+    path('compraBoleto/<str:nombre>', compraBoletoPost, name='compraBoleto'),
+
+
+    path('tarjetas/',listaTarjeta, name = 'listaTarjeta' ),
+    path('tarjetas/carga/',cargaXMLTarjetas, name = 'cargaXMLTarjetas' ),
+    path('tarjetas/crearTarjeta/',crearTarjeta, name = 'crearTarjeta' ),
+    path('tarjeta/actualizarTarjeta/<str:numero>/',actualizarTarjeta,name="actualizarTarjeta"),
+    path('tarjeta/eliminarTarjeta/<str:numero>/',eliminarTarjeta,name="eliminarTarjeta"),
+
+
 
     path('peliculas/', listaPeli, name = 'listaPeli'),
     path('peliculas/crearPelicula/', crearPeli, name = 'crearPelicula' ),
-    path('peliculas/cargar-xml', cargaXML, name='cargaXML')
+    path('peliculas/cargar-xml/', cargaXML, name='cargaXML'),
+    path('peliculas/actualizarPeli/<str:titulo>/', actualizarPeli, name='actualizarPeli'),
+    path('peliculas/eliminarPeli/<str:titulo>', eliminarPeli, name='eliminarPeli'),
+
+    path('salas/', listaSalas,name='listaSalas' ),
+    path('salas/carga/',cargaXMLSalas, name='cargaXMLSalas'),
+    path('salas/crearSala/', crearSala, name='crearSala'),
+    path('salas/actualizarSalas/<str:numero>', actualizarSalas, name='actualizarSalas'),
+    path('salas/eliminarSalas/<str:numero>',eliminarSalas,name='eliminarSalas' )
 ]

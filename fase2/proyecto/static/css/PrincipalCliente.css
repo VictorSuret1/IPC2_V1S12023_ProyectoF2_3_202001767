@@ -1,0 +1,37 @@
+.all{
+    background: linear-gradient(to bottom, #1e175a, #0c0088, #1e1e2b);
+}
+.header{
+    background-color: grey;
+    color: white;
+}
+
+.headre .navLinks{
+    list-style: none;
+}
+.header .navLinks li{
+    display:  inline-block;
+    padding: 0 20px;
+}
+.header .navLinks a{
+    font-size: 700;
+    color: white;
+    text-decoration: none;
+}
+.header .navLinks li a:hover{
+    color: chocolate;
+}
+
+table {
+    width: 100%;
+    background-color: grey;
+    padding: 15px;
+    color: black;
+  }
+  
+  th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  

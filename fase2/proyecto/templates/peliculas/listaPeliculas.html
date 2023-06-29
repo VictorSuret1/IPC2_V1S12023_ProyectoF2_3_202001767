@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html >
     <head>
-        <title>Gestion Peliculas</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/listas.css' %}" >
+        <title class="Titulo">Gestion Peliculas</title>
+        
+        
     </head>
-    <body>
+    <body class="back">
         <form method="POST" action="{% url 'cargaXML' %}">
             {% csrf_token %}
-            <button type="submit">Cargar XML</button>
+            <button type="submit" class="button type3">Cargar XML</button>
         </form>
-        <a href="{% url 'crearPelicula' %}">Crear Pelicula</a>
+        <a href="{% url 'crearPelicula' %}" class="button type3">Crear Pelicula</a>
+        
         <h1>Lista Peliculas</h1>
-        <table>
-            <thead>
+        <table >
+            <thead >
                 <th>Categoria</th>
                 <th>Titulo</th>
                 <th>Director</th>
@@ -34,8 +39,8 @@
                     <td><img src="{{ peli.imagen }} " width="100"></td>
                     <td>{{ peli.precio }}</td>
                     <td>
-                        <a href="{% url 'ActualizarPeli' peli.titulo}">Actualizar</a>
-                        <a href="{% url 'EliminarPelo' peli.titulo}">Eliminar</a>
+                        <a href="{% url 'actualizarPeli' peli.titulo %}" class="button type3">Actualizar</a>
+                        <a href="{% url 'eliminarPeli' peli.titulo %}" class="button type3">Eliminar</a>
                     </td>
                 </tr>
                 {% endfor %}

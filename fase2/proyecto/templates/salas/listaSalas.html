@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/listas.css' %}" >
+        <title>Gestion Usuarios</title>
+    </head>
+    <body class="back">
+        <form method="POST" action="{% url 'cargaXMLSalas' %}">
+            {% csrf_token %}
+            <button type="submit" class="button type3">Cargar XML</button>
+        </form>
+        <a href="{% url 'crearSala' %}" class="button type3">Crear Sala</a>
+        <h1>Lista Salas</h1>
+        <table>
+            <thead>
+                <th>Cine</th>
+                <th>Numero</th>
+                <th>Asientos</th>
+
+            <tbody>
+                {% for sala in salas%}
+                <tr>
+                    <td>{{ sala.cine }}</td>
+                    <td>{{ sala.numero }}</td>
+                    <td>{{ sala.asientos }}</td>
+                    <td>
+                        <a href="{% url 'actualizarSalas' sala.numero %}" class="button type3">Actualizar</a>
+                        <a href="{% url 'eliminarSalas' sala.numero %}" class="button type3">Eliminar</a>
+
+                       
+                    </td>
+                </tr>
+                
+                {% endfor %}
+                
+            </tbody>
+        </table>
+    </body>
+</html>

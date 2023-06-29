@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/crear.css' %}" >
+    </head>
+    <body class="back">
+        <h1>Crear Usuario</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <label for="cine">Cine</label>
+            <input type="text" name ="cine" required>
+            <label for="numero">Numero</label>
+            <input type="text" name ="numero" required>
+            <label for="asientos">Asientos</label>
+            <input type="number" name ="asientos" required>
+
+            <button type="submit" class="button type3">Guardar</button>
+        </form>
+    </body>
+</html>

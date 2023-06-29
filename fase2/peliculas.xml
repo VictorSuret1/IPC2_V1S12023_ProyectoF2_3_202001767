@@ -1,6 +1,6 @@
 <categorias>
     <categoria>
-        <nombre>Acción</nombre>
+        <nombre>Accion</nombre>
     <peliculas>
         <pelicula>
             <titulo>Avengers: Endgame</titulo>
@@ -21,7 +21,7 @@
             <precio>45</precio>
         </pelicula>
         <pelicula>
-            <titulo>Misión Imposible: Fallout</titulo>
+            <titulo>Misi&#243;n Imposible: Fallout</titulo>
             <director>Christopher McQuarrie</director>
             <anio>2018</anio>
             <fecha>2023-06-07</fecha>
@@ -62,5 +62,46 @@
             <precio>42</precio>
          </pelicula>
     </peliculas>
-     </categoria>
+    </categoria>
+    <categoria>
+        <nombre>Terror</nombre>
+    <peliculas>
+        <pelicula>
+            <titulo>The Conjuring</titulo>
+            <director>James Wan</director>
+            <anio>2013</anio>
+            <fecha>2023-06-08</fecha>
+            <hora>22:00</hora>
+            <imagen>https://3.bp.blogspot.com/-iTzWtKaucxc/UhjqiX4GrTI/AAAAAAAADes/VXkOmst49Bg/s1600/the-conjuring-poster.jpg</imagen>
+            <precio>55</precio>
+        </pelicula>
+        <pelicula>
+            <titulo>Hereditary</titulo>
+            <director>Ari Aster</director>
+            <anio>2018</anio>
+            <fecha>2023-06-09</fecha>
+            <hora>21:30</hora>
+            <imagen>https://m.media-amazon.com/images/M/MV5BOTU5MDg3OGItZWQ1Ny00ZGVmLTg2YTUtMzBkYzQ1YWIwZjlhXkEyXkFqcGdeQXVyNTAzMTY4MDA@._V1_.jpg</imagen>
+            <precio>60</precio>
+        </pelicula>
+        <pelicula>
+            <titulo>A Quiet Place</titulo>
+            <director>John Krasinski</director>
+            <anio>2018</anio>
+            <fecha>2023-06-10</fecha>
+            <hora>20:45</hora>
+            <imagen>https://m.media-amazon.com/images/M/MV5BMjI0MDMzNTQ0M15BMl5BanBnXkFtZTgwMTM5NzM3NDM@._V1_.jpg</imagen>
+            <precio>58</precio>
+        </pelicula>
+        <pelicula>
+            <titulo>Get Out</titulo>
+            <director>Jordan Peele</director>
+            <anio>2017</anio>
+            <fecha>2023-06-11</fecha>
+            <hora>19:30</hora>
+            <imagen>https://upload.wikimedia.org/wikipedia/en/thumb/a/a3/Get_Out_poster.png/220px-Get_Out_poster.png</imagen>
+            <precio>52</precio>
+        </pelicula>
+    </peliculas>
+</categoria>
 </categorias>

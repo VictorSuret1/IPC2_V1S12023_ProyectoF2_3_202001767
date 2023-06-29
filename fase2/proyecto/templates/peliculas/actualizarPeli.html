@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/actualizar.css' %}" >
+        <title>Actualizar pelicula</title>
+    </head>
+    <body class="back">
+        <h1>Actualizar pelicula</h1>
+
+        <form method="post" >
+            {% csrf_token %}
+            <label for="categoria">Categoría</label>
+            <input type="text" name="categoria" value="{{ peli.categoria }}" required>
+            <label for="titulo">Título</label>
+            <input type="text" name="titulo" value="{{ peli.titulo }}" required>
+            <label for="director">Director</label>
+            <input type="text" name="director" value="{{ peli.director }}" required>
+            <label for="anio">Año</label>
+            <input type="number" name="anio" value="{{ peli.anio }}" required>
+            <label for="fecha">Fecha</label>
+            <input type="date" name="fecha" value="{{ peli.fecha }}" required>
+            <label for="hora">Hora</label>
+            <input type="time" name="hora" value="{{ peli.hora }}" required>
+            <label for="imagen">Imagen</label>
+            <input type="text" name="imagen" value="{{ peli.imagen }}" required>
+            <label for="precio">Precio</label>
+            <input type="number" name="precio" value="{{ peli.precio }}" required>
+
+            <button type="submit" class="button type3">Actualizar</button>
+        </form>
+    </body>
+</html>

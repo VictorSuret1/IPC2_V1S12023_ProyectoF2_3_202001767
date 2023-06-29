@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/administrador.css' %}" >
+    </head>
+    <body class="back">
+        <h1>Gestion</h1>
+        <button onclick="listaUser()" class="button type3">Usuarios</button>
+        <button onclick="listaPeli()" class="button type3">Peliculas</button>
+        <button onclick="listaSalas()" class="button type3">Salas</button>
+        <button onclick="listaTarjetas()" class="button type3">Tarjetas</button>
+        <button class="button type3">Boletos Comprados</button>
+
+        <script>
+            function listaUser() {
+                window.location.href = "{% url 'listaUser' %}";
+            }
+        </script>
+
+        <script>
+            function listaPeli() {
+                window.location.href = "{% url 'listaPeli' %}";
+            }
+        </script>
+        <script>
+            function listaSalas() {
+                window.location.href = "{% url 'listaSalas' %}";
+            }
+        </script>
+        <script>
+            function listaTarjetas() {
+                window.location.href = "{% url 'listaTarjeta' %}";
+            }
+        </script>
+
+        
+        </script>
+    </body>
+</html>

@@ -2,15 +2,14 @@
 <html>
     <head>
         {% load static %}
-        <link rel="stylesheet" href="{% static 'css/crear.css' %}" >
-        </head>
-    <body class="back">
-        <h1>Crear Usuario</h1>
+        <link rel="stylesheet" href="{% static 'css/registro.css' %}" >    
+    </head>
+    <body class="content">
+        
 
         <form method="post">
             {% csrf_token %}
-            <label for="rol">Rol</label>
-            <input type="text" name ="rol" required>
+            <label>REGISTRATE!</label>
             <label for="nombre">Nombre</label>
             <input type="text" name ="nombre" required>
             <label for="apellido">Apellido</label>
@@ -22,7 +21,7 @@
             <label for="contrasena">Contrasena</label>
             <input type="text" name ="contrasena" required>
 
-            <button type="submit" class="button type3">Guardar</button>
+            <button type="submit">Registrar</button>
         </form>
     </body>
 </html>
