@@ -10,7 +10,8 @@
         <button onclick="listaPeli()" class="button type3">Peliculas</button>
         <button onclick="listaSalas()" class="button type3">Salas</button>
         <button onclick="listaTarjetas()" class="button type3">Tarjetas</button>
-        <button class="button type3">Boletos Comprados</button>
+        <button onclick="listaBoletos()" class="button type3">Boletos Comprados</button>
+        <button onclick="salir()" class="button type3">Salir</button>
 
         <script>
             function listaUser() {
@@ -31,6 +32,16 @@
         <script>
             function listaTarjetas() {
                 window.location.href = "{% url 'listaTarjeta' %}";
+            }
+        </script>
+        <script>
+            function listaBoletos() {
+                window.location.href = "{% url 'cancelaBoleto' %}";
+            }
+        </script>
+        <script>
+            function salir() {
+                window.location.href = "{% url 'default' %}";
             }
         </script>
 

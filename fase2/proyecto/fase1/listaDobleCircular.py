@@ -56,7 +56,19 @@ class listaDobleCircular:
                 if nodo_actual == self.cabeza:
                     break
 
+    def mostrar_datos(lista):
+        nodo_actual = lista.cabeza
 
+        if nodo_actual is not None:
+            while True:
+                print(nodo_actual.dato)  # Imprimir el dato del nodo actual
+
+                nodo_actual = nodo_actual.siguiente
+
+                if nodo_actual == lista.cabeza:
+                    break
+
+                
     def CargarPelis(self,ruta):
         tree = ET.parse(ruta)
         root = tree.getroot()
