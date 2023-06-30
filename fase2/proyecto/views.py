@@ -164,6 +164,8 @@ def cargarPeliculasDesdeXML():
             imagen = pelicula.getElementsByTagName('imagen')[0].firstChild.data
             precio = pelicula.getElementsByTagName('precio')[0].firstChild.data
 
+            
+
             peliculas.append({
                 'categoria': nombre_categoria,
                 'titulo': titulo,
@@ -174,6 +176,8 @@ def cargarPeliculasDesdeXML():
                 'imagen': imagen,
                 'precio': precio
             })
+
+
 
     return peliculas
 
@@ -206,21 +210,33 @@ def cargaXML(request):
                 precio =pelicula['precio']
                 objeto = Peliculas(nombre_categoria,titulo,director,anio,fecha,hora,imagen,precio)
                 listaCir.add(objeto)
+                
         
         return redirect('listaPeli')
     return render(request, 'peliculas/listaPeliculas.html', {'peliculas': listaCir})
 
+
+def cancelaBoleto(request):
+    historial = listaCir.historial 
+    
+    return render(request,'boletos/boletos.html',{'historial': historial})
+
+def eliminaBoleto(request,posicion):
+    historial = listaCir.historial 
+    del historial[posicion]
+    return redirect('cancelaBoleto')
+
+
 #carga Tabla de cliente
 def listaPeliCliente(request):
-    peli = cargarPeliculasDesdeXML()
+    peli = list(listaCir)
     
     return render(request, 'principal/cliente.html', {'peliculas': peli})
 
 
 def cargalistaCliente(request):
     if request.method == 'POST':
-        listaCir.CargarPelis(pelis)
-        
+        listaCir.mostrar_datos()
     return render(request ,'principal/cliente.html', {'peli': list(listaCir)})
 
 
@@ -244,6 +260,7 @@ def compraBoletoPost(request, nombre):
     else:
         salas_disponibles = listaCir.mostrarSalas()
         return render(request, 'principal/compraBoletos.html', {'boletos': listaCir, 'salas_disponibles': salas_disponibles})
+    
 
 
 def crearPeli(request):
@@ -394,8 +411,8 @@ def eliminarTarjeta(request, numero):
     return redirect('listaTarjeta')
     
 
-def historial(request):  # Crea una instancia de la clase listaDobleCircular
-    historial = listaCir.historial  # Obtén la lista historial de la instancia
+def historial(request):
+    historial = listaCir.historial  
     return render(request, 'principal/historial.html', {'historial': historial})
         
 

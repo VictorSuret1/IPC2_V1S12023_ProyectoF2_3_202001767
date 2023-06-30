@@ -19,7 +19,7 @@ from django.urls import path
 from proyecto.views import default_view, login, cliente, administrador
 from proyecto.views import listaUser,crearUser,cargaXMLUsuarios,actualizarUser,eliminarUsuario,listaPeli,crearPeli,cargaXML, actualizarPeli, eliminarPeli,listaSalas
 from proyecto.views import cargaXMLSalas, crearSala, actualizarSalas, eliminarSalas ,cargalistaCliente, registraCliente,compraBoletoPost
-from proyecto.views import cargaXMLTarjetas,crearTarjeta,listaTarjeta,actualizarTarjeta,eliminarTarjeta,historial
+from proyecto.views import cargaXMLTarjetas,crearTarjeta,listaTarjeta,actualizarTarjeta,eliminarTarjeta,historial,cancelaBoleto,eliminaBoleto
 urlpatterns = [
     path('', default_view, name='default'),
     path('login/' ,login, name='login' ),
@@ -38,6 +38,8 @@ urlpatterns = [
     path('cliente/Historial',historial,name='historial'),
 
     path('compraBoleto/<str:nombre>', compraBoletoPost, name='compraBoleto'),
+    path('boletos/', cancelaBoleto, name='cancelaBoleto'),
+    path('boletos/cancelar/<int:posicion>', eliminaBoleto,name='elimina'),
 
 
     path('tarjetas/',listaTarjeta, name = 'listaTarjeta' ),
